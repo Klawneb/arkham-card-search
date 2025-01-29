@@ -1,6 +1,7 @@
 ﻿import {useQuery} from "@tanstack/react-query";
 import {Card} from "../types/api";
-import {CardItem} from "./CardItem.tsx";
+import CardItem from "./CardItem.tsx";
+import {motion} from "motion/react";
 
 async function fetchCards(): Promise<Card[]> {
     const response = await fetch("https://arkhamdb.com/api/public/cards/");
@@ -10,17 +11,20 @@ async function fetchCards(): Promise<Card[]> {
     return response.json();
 }
 
-export default function CardDisplay() {
+const CardDisplay = () => {
     const cards = useQuery({
         queryKey: ["cards"],
         queryFn: fetchCards,
     });
 
     return (
-        <div className="grid grid-cols-[repeat(auto-fit,300px)] auto-rows-[420px] gap-4 justify-center">
+        <motion.div
+            className="grid grid-cols-[repeat(auto-fit,200px)] auto-rows-[280px] gap-4 justify-center">
             {cards.data?.slice(0, 12).map((card, i) => (
                 <CardItem key={i} card={card}/>
             ))}
-        </div>
+        </motion.div>
     );
 }
+
+export default CardDisplay
