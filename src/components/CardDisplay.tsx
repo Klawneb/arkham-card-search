@@ -1,7 +1,7 @@
-﻿import {useQuery} from "@tanstack/react-query";
-import {Card} from "../types/api";
+﻿import { useQuery } from "@tanstack/react-query";
+import { Card } from "../types/api";
 import CardItem from "./CardItem.tsx";
-import {motion} from "motion/react";
+import { VirtuosoGrid } from "react-virtuoso";
 
 async function fetchCards(): Promise<Card[]> {
     const response = await fetch("https://arkhamdb.com/api/public/cards/");
@@ -17,14 +17,27 @@ const CardDisplay = () => {
         queryFn: fetchCards,
     });
 
-    return (
-        <motion.div
-            className="grid grid-cols-[repeat(auto-fit,200px)] auto-rows-[280px] gap-4 justify-center">
-            {cards.data?.slice(0, 12).map((card, i) => (
-                <CardItem key={i} card={card}/>
-            ))}
-        </motion.div>
-    );
-}
+    if (!cards.data) {
+        return (
+            <div>
+                <p>Loading...</p>
+            </div>
+        );
+    }
 
-export default CardDisplay
+    return (
+        <div className="flex-grow p-2 overflow-auto">
+            <VirtuosoGrid
+                totalCount={cards.data.length}
+                itemContent={(index) => {
+                    const card = cards.data[index];
+                    return <CardItem card={card} key={card.octgn_id} />;
+                }}
+                listClassName="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-2"
+                style={{ height: "100%" }}
+                overscan={2000}
+            />
+        </div>
+    );
+};
+export default CardDisplay;

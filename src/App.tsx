@@ -3,7 +3,7 @@ import CardDisplay from "./components/CardDisplay.tsx";
 function App() {
 
     return (
-        <div>
+        <div className="flex h-screen w-screen">
             <CardDisplay/>
         </div>
     )
