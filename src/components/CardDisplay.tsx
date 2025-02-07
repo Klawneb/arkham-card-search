@@ -20,15 +20,6 @@ const CardDisplay = () => {
     });
     const [columnMinWidth, setColumnMinWidth] = useState(200);
 
-    useEffect(() => {
-        const handleResize = () => {
-            setColumnMinWidth(window.innerWidth < 1000 ? 100 : 200);
-        };
-
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
-
     if (!cards.data) {
         return (
             <div>
