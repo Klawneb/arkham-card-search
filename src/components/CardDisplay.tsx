@@ -2,6 +2,8 @@
 import { Card } from "../types/api";
 import CardItem from "./CardItem.tsx";
 import { VirtuosoGrid } from "react-virtuoso";
+import { useEffect, useState } from "react";
+import { Slider } from "@mantine/core";
 
 async function fetchCards(): Promise<Card[]> {
     const response = await fetch("https://arkhamdb.com/api/public/cards/");
@@ -16,6 +18,16 @@ const CardDisplay = () => {
         queryKey: ["cards"],
         queryFn: fetchCards,
     });
+    const [columnMinWidth, setColumnMinWidth] = useState(200);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setColumnMinWidth(window.innerWidth < 1000 ? 100 : 200);
+        };
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
     if (!cards.data) {
         return (
@@ -26,18 +38,32 @@ const CardDisplay = () => {
     }
 
     return (
-        <div className="flex-grow p-2 overflow-auto">
+        <div
+            className="flex-grow p-2 overflow-auto"
+            style={
+                {
+                    "--min-col-width": `${columnMinWidth}px`,
+                } as React.CSSProperties
+            }
+        >
             <VirtuosoGrid
                 totalCount={cards.data.length}
                 itemContent={(index) => {
                     const card = cards.data[index];
-                    return <CardItem card={card} key={card.octgn_id} />;
+                    return (
+                        <CardItem
+                            card={card}
+                            key={card.octgn_id}
+                            width={columnMinWidth}
+                        />
+                    );
                 }}
-                listClassName="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-2"
+                listClassName="grid grid-cols-[repeat(auto-fit,minmax(var(--min-col-width),1fr))] gap-2"
                 style={{ height: "100%" }}
                 overscan={2000}
             />
         </div>
     );
 };
+
 export default CardDisplay;
