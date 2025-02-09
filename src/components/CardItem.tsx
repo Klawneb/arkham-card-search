@@ -9,7 +9,7 @@ interface CardItemProps {
 
 const CardItem = ({ card, width }: CardItemProps) => {
     return (
-        <motion.div layout={"position"}>
+        <motion.div layoutId={card.octgn_id}>
             <AspectRatio
                 ratio={5 / 7}
                 maw={width}

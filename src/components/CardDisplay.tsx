@@ -2,8 +2,8 @@
 import { Card } from "../types/api";
 import CardItem from "./CardItem.tsx";
 import { VirtuosoGrid } from "react-virtuoso";
-import { useEffect, useState } from "react";
-import { Slider } from "@mantine/core";
+import { useState } from "react";
+import {filterCards, useFilterStore} from "../lib/filter.ts";
 
 async function fetchCards(): Promise<Card[]> {
     const response = await fetch("https://arkhamdb.com/api/public/cards/");
@@ -18,7 +18,10 @@ const CardDisplay = () => {
         queryKey: ["cards"],
         queryFn: fetchCards,
     });
-    const [columnMinWidth, setColumnMinWidth] = useState(200);
+    const [columnMinWidth] = useState(200);
+    const filterStore = useFilterStore();
+
+    const filteredCards = filterCards(cards.data || [], filterStore);
 
     if (!cards.data) {
         return (
@@ -38,9 +41,9 @@ const CardDisplay = () => {
             }
         >
             <VirtuosoGrid
-                totalCount={cards.data.length}
+                totalCount={filteredCards.length}
                 itemContent={(index) => {
-                    const card = cards.data[index];
+                    const card = filteredCards[index];
                     return (
                         <CardItem
                             card={card}
@@ -49,8 +52,7 @@ const CardDisplay = () => {
                         />
                     );
                 }}
-                listClassName="grid grid-cols-[repeat(auto-fit,minmax(var(--min-col-width),1fr))] gap-2"
-                style={{ height: "100%" }}
+                listClassName="grid grid-cols-[repeat(auto-fit,minmax(var(--min-col-width),1fr))] gap-2 h-full"
                 overscan={2000}
             />
         </div>
