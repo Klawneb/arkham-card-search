@@ -13,14 +13,11 @@ export const useFilterStore = create<FilterState>((set) => ({
 }))
 
 function textFilter(cards: Card[], text: string) {
-    if (text === "") {
-        return cards;
-    }
-
     const results = fuzzysort.go(text, cards, {
-        keys: ["name"]
+        keys: ["name"],
+        all: true,
     })
-    return results.map(key => key.obj);
+    return results.map(key => key.obj).sort((a, b) => a.code.localeCompare(b.code));
 }
 
 export function filterCards(cards: Card[], filter: FilterState): Card[] {

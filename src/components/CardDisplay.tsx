@@ -3,7 +3,7 @@ import { Card } from "../types/api";
 import CardItem from "./CardItem.tsx";
 import { VirtuosoGrid } from "react-virtuoso";
 import { useState } from "react";
-import {filterCards, useFilterStore} from "../lib/filter.ts";
+import { filterCards, useFilterStore } from "../lib/filter.ts";
 
 async function fetchCards(): Promise<Card[]> {
     const response = await fetch("https://arkhamdb.com/api/public/cards/");
@@ -21,8 +21,6 @@ const CardDisplay = () => {
     const [columnMinWidth] = useState(200);
     const filterStore = useFilterStore();
 
-    const filteredCards = filterCards(cards.data || [], filterStore);
-
     if (!cards.data) {
         return (
             <div>
@@ -30,6 +28,8 @@ const CardDisplay = () => {
             </div>
         );
     }
+
+    const filteredCards = filterCards(cards.data, filterStore);
 
     return (
         <div
@@ -52,8 +52,8 @@ const CardDisplay = () => {
                         />
                     );
                 }}
+                overscan={1000}
                 listClassName="grid grid-cols-[repeat(auto-fit,minmax(var(--min-col-width),1fr))] gap-2 h-full"
-                overscan={2000}
             />
         </div>
     );
