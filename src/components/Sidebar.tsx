@@ -24,7 +24,7 @@ const Sidebar = () => {
         <div className={"h-full w-80 bg-stone-800"}>
             <p className="text-center text-2xl">Card Filter</p>
             <Divider />
-            <Accordion defaultValue={["Search"]} multiple>
+            <Accordion defaultValue={["Search"]} multiple styles={{ label: { padding: 6}}}>
                 <AccordionItem name={"Search"} Component={TextFilter} />
                 <AccordionItem name={"Faction"} Component={FactionFilter} />
             </Accordion>
