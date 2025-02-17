@@ -9,7 +9,7 @@ interface CardItemProps {
 
 const CardItem = ({ card, width }: CardItemProps) => {
     return (
-        <motion.div layout={"position"} className="flex justify-center">
+        <motion.div className="flex justify-center">
             <AspectRatio
                 ratio={5 / 7}
                 maw={width}
