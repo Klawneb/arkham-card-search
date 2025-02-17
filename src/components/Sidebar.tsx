@@ -1,18 +1,16 @@
 import { Accordion, Divider } from "@mantine/core";
 import TextFilter from "./Sidebar/TextFilter.tsx";
 import React from "react";
+import FactionFilter from "./Sidebar/FactionFilter.tsx";
 
 interface AccordionItemProps {
     name: string;
-    Component: React.FC
+    Component: React.FC;
 }
 
-const AccordionItem = ({
-    name,
-    Component
-}: AccordionItemProps) => {
+const AccordionItem = ({ name, Component }: AccordionItemProps) => {
     return (
-        <Accordion.Item key={name} value={name} >
+        <Accordion.Item key={name} value={name}>
             <Accordion.Control>{name}</Accordion.Control>
             <Accordion.Panel styles={{ content: { padding: "0" } }}>
                 <Component />
@@ -27,7 +25,8 @@ const Sidebar = () => {
             <p className="text-center text-2xl">Card Filter</p>
             <Divider />
             <Accordion defaultValue={["Search"]} multiple>
-                <AccordionItem name={"Search"} Component={TextFilter}/>
+                <AccordionItem name={"Search"} Component={TextFilter} />
+                <AccordionItem name={"Faction"} Component={FactionFilter} />
             </Accordion>
         </div>
     );
