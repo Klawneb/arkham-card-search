@@ -52,7 +52,6 @@ const CardDisplay = () => {
                         />
                     );
                 }}
-                overscan={1000}
                 listClassName="grid grid-cols-[repeat(auto-fit,minmax(var(--min-col-width),1fr))] gap-2 h-full"
             />
         </div>
