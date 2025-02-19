@@ -11,8 +11,8 @@ interface FilterState {
     setShowAllResults: (showAllResults: boolean) => void;
     factionFilter: Faction[];
     setFactionFilter: (factions: Faction[]) => void;
-    xpCostFilter: [number, number];
-    setXpCostFilter: (xpCost: [number, number]) => void;
+    xpFilter: [number, number];
+    setxpFilter: (xpCost: [number, number]) => void;
 }
 
 export const useFilterStore = create<FilterState>((set) => ({
@@ -25,8 +25,8 @@ export const useFilterStore = create<FilterState>((set) => ({
         set({ showAllResults: showAllResults }),
     factionFilter: [],
     setFactionFilter: (factions) => set({ factionFilter: factions }),
-    xpCostFilter: [0, 10],
-    setXpCostFilter: (xpCost) => set({ xpCostFilter: xpCost }),
+    xpFilter: [0, 10],
+    setxpFilter: (xpCost) => set({ xpFilter: xpCost }),
 }));
 
 function textFilter(cards: Card[], filter: FilterState) {
@@ -53,8 +53,12 @@ function factionFilter(cards: Card[], filter: FilterState) {
     );
 }
 
-function xpCostFilter(cards: Card[], filter: FilterState) {
+function xpFilter(cards: Card[], filter: FilterState) {
     return cards.filter((card) => {
+        if (filter.xpFilter[0] === 0 && filter.xpFilter[1] === 10) {
+            return true;
+        }
+
         if (!card.hasOwnProperty("xp") || card.xp === undefined) {
             return false;
         }
@@ -63,14 +67,12 @@ function xpCostFilter(cards: Card[], filter: FilterState) {
             ? card.xp * 2
             : card.xp;
 
-        return (
-            xpCost >= filter.xpCostFilter[0] && xpCost <= filter.xpCostFilter[1]
-        );
+        return xpCost >= filter.xpFilter[0] && xpCost <= filter.xpFilter[1];
     });
 }
 
 export function filterCards(cards: Card[], filter: FilterState): Card[] {
-    const filters = [textFilter, factionFilter, xpCostFilter];
+    const filters = [textFilter, factionFilter, xpFilter];
 
     return filters.reduce((filteredCards, filterFn) => {
         return filterFn(filteredCards, filter);

@@ -15,7 +15,15 @@ const XPFilter = () => {
 
     return (
         <div className="p-6">
-            <RangeSlider marks={marks} min={0} max={10} minRange={0} step={1} value={filterStore.xpCostFilter} onChange={filterStore.setXpCostFilter}/>
+            <RangeSlider
+                marks={marks}
+                min={0}
+                max={10}
+                minRange={0}
+                step={1}
+                value={filterStore.xpFilter}
+                onChange={filterStore.setxpFilter}
+            />
         </div>
     );
 };
