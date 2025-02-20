@@ -13,6 +13,8 @@ interface FilterState {
     setFactionFilter: (factions: Faction[]) => void;
     xpFilter: [number, number];
     setxpFilter: (xpCost: [number, number]) => void;
+    resourceFilter: [number, number];
+    setResourceFilter: (resourceCost: [number, number]) => void;
 }
 
 export const useFilterStore = create<FilterState>((set) => ({
@@ -27,6 +29,8 @@ export const useFilterStore = create<FilterState>((set) => ({
     setFactionFilter: (factions) => set({ factionFilter: factions }),
     xpFilter: [0, 10],
     setxpFilter: (xpCost) => set({ xpFilter: xpCost }),
+    resourceFilter: [-2, 12],
+    setResourceFilter: (resourceCost) => set({ resourceFilter: resourceCost }),
 }));
 
 function textFilter(cards: Card[], filter: FilterState) {
@@ -71,8 +75,24 @@ function xpFilter(cards: Card[], filter: FilterState) {
     });
 }
 
+function resourceFilter(cards: Card[], filter: FilterState) {
+    return cards.filter((card) => {
+        if (filter.resourceFilter[0] === -2 && filter.resourceFilter[1] === 12) {
+            return true;
+        }
+
+        if (!card.hasOwnProperty("cost") || card.cost === undefined) {
+            return false;
+        }
+
+        return (
+            card.cost >= filter.resourceFilter[0] && card.cost <= filter.resourceFilter[1]
+        );
+    });
+}
+
 export function filterCards(cards: Card[], filter: FilterState): Card[] {
-    const filters = [textFilter, factionFilter, xpFilter];
+    const filters = [textFilter, factionFilter, xpFilter, resourceFilter];
 
     return filters.reduce((filteredCards, filterFn) => {
         return filterFn(filteredCards, filter);
