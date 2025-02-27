@@ -5,11 +5,18 @@ import { motion } from "framer-motion";
 interface CardItemProps {
     card: Card;
     width: number;
+    openModal: () => void;
+    setModalCard: (card: Card) => void;
 }
 
-const CardItem = ({ card, width }: CardItemProps) => {
+const CardItem = ({ card, width, openModal, setModalCard }: CardItemProps) => {
+    function handleClick() {
+        setModalCard(card);
+        openModal();
+    }
+
     return (
-        <motion.div className="flex justify-center">
+        <motion.div className="flex justify-center" onClick={handleClick}>
             <AspectRatio
                 ratio={5 / 7}
                 maw={width}
