@@ -71,7 +71,7 @@ function xpFilter(cards: Card[], filter: FilterState) {
             return false;
         }
 
-        const xpCost = card.text?.includes("Exceptional.")
+        const xpCost = card.exceptional
             ? card.xp * 2
             : card.xp;
 
