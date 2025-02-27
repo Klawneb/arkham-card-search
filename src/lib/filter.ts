@@ -1,4 +1,4 @@
-import { Card, Faction } from "../types/api";
+import { Card, Faction, Type } from "../types/api";
 import * as fuzzysort from "fuzzysort";
 import { create } from "zustand/react";
 
@@ -15,6 +15,8 @@ interface FilterState {
     setxpFilter: (xpCost: [number, number]) => void;
     resourceFilter: [number, number];
     setResourceFilter: (resourceCost: [number, number]) => void;
+    typeFilter: Type[];
+    setTypeFilter: (types: Type[]) => void;
 }
 
 export const useFilterStore = create<FilterState>((set) => ({
@@ -31,6 +33,8 @@ export const useFilterStore = create<FilterState>((set) => ({
     setxpFilter: (xpCost) => set({ xpFilter: xpCost }),
     resourceFilter: [-2, 12],
     setResourceFilter: (resourceCost) => set({ resourceFilter: resourceCost }),
+    typeFilter: [],
+    setTypeFilter: (types) => set({ typeFilter: types }),
 }));
 
 function textFilter(cards: Card[], filter: FilterState) {
@@ -91,8 +95,18 @@ function resourceFilter(cards: Card[], filter: FilterState) {
     });
 }
 
+function typeFilter(cards: Card[], filter: FilterState) {
+    return cards.filter((card) => {
+        if (filter.typeFilter.length === 0) {
+            return true;
+        }
+
+        return filter.typeFilter.includes(card.type_code);
+    })
+}
+
 export function filterCards(cards: Card[], filter: FilterState): Card[] {
-    const filters = [textFilter, factionFilter, xpFilter, resourceFilter];
+    const filters = [textFilter, factionFilter, xpFilter, resourceFilter, typeFilter];
 
     return filters.reduce((filteredCards, filterFn) => {
         return filterFn(filteredCards, filter);

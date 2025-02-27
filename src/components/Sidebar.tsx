@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import FactionFilter from "./Sidebar/FactionFilter.tsx";
 import XPFilter from "./Sidebar/XPFilter.tsx";
 import ResourceFilter from "./Sidebar/ResourceFilter.tsx";
+import TypeFilter from "./Sidebar/TypeFilter.tsx";
 
 interface AccordionItemProps {
   name: string;
@@ -33,6 +34,7 @@ const Sidebar = () => {
         <AccordionItem name={"Faction"} Component={FactionFilter} />
         <AccordionItem name={"XP Cost"} Component={XPFilter} />
         <AccordionItem name={"Resource Cost"} Component={ResourceFilter} />
+        <AccordionItem name={"Type"} Component={TypeFilter} />
       </Accordion>
     </div>
   );
