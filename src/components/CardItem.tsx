@@ -16,7 +16,7 @@ const CardItem = ({ card, width, openModal, setModalCard }: CardItemProps) => {
     }
 
     return (
-        <motion.div className="flex justify-center" onClick={handleClick}>
+        <motion.div className="flex justify-center cursor-pointer" onClick={handleClick}>
             <AspectRatio
                 ratio={5 / 7}
                 maw={width}
