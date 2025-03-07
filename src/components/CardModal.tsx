@@ -19,18 +19,19 @@ const CardModal = ({ onClose, opened, card }: CardModalProps) => {
       opened={opened}
       onClose={onClose}
       withCloseButton={false}
+      closeOnClickOutside={true}
       centered
       size={"auto"}
       className="container"
       transitionProps={{ transition: enterTransition }}
-      overlayProps={{ blur: 5, backgroundOpacity: 0.8 }}
+      overlayProps={{ blur: 5, backgroundOpacity: 0.9 }}
       classNames={{
-        root: "bg-white"
+        content: "bg-transparent",
       }}
     >
-      <div className="grid grid-cols-[500px,auto,500px] h-[60vh]">
+      <div className="grid grid-cols-[500px,auto,500px] h-[50vh]">
         <div></div>
-        <AspectRatio ratio={card?.type_name === TypeName.Investigator ? 7 / 5 : 5 / 7} >
+        <AspectRatio ratio={card?.type_name === TypeName.Investigator ? 7 / 5 : 5 / 7}>
           <Image
             src={`https://arkhamdb.com${card?.imagesrc}`}
             alt={`${card?.name} card art`}
@@ -39,15 +40,15 @@ const CardModal = ({ onClose, opened, card }: CardModalProps) => {
         </AspectRatio>
         <div className="flex flex-col justify-between p-10">
           <div>
-            <h2 className="text-center text-4xl">{card?.name}</h2>
-            <p className="text-center font-bold text-xl">{card?.type_name}</p>
+            <h2 className="text-center text-5xl">{card?.name}</h2>
+            <p className="text-center font-bold text-2xl">{card?.type_name}</p>
           </div>
           <div>
-            <p className="text-center text-xl font-bold">{card?.traits}</p>
-            <p className="text-center text-xl">{card?.text}</p>
+            <p className="text-center text-2xl font-bold">{card?.traits}</p>
+            <p className="text-center text-2xl">{card?.text}</p>
           </div>
           <div>
-            <p className="text-center text-md italic">{card?.flavor}</p>
+            <p className="text-center text- italic">{card?.flavor}</p>
           </div>
         </div>
       </div>
