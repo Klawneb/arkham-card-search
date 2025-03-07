@@ -1,6 +1,6 @@
 import { Chip } from "@mantine/core";
 import { darkenHexColor } from "../../lib/colors";
-import { Type } from "../../types/api.d";
+import { Type } from "../../types/api";
 import { useFilterStore } from "../../lib/filter";
 
 const color = "#7d7d7d";
@@ -19,7 +19,9 @@ const TypeFilter = () => {
           {Object.values(Type).map((type, index) => {
             return (
               <Chip
-                className={`${index === 6 ? "col-start-2 col-span-2 place-self-center w-full" : "col-span-2"}`}
+                className={`${
+                  index === 6 ? "col-start-2 col-span-2 place-self-center w-full" : "col-span-2"
+                }`}
                 key={type}
                 value={type}
                 styles={{
