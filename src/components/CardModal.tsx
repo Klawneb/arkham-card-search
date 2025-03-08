@@ -1,4 +1,4 @@
-import { MantineTransition, Modal, Image, AspectRatio } from "@mantine/core";
+import { MantineTransition, Modal, Image, AspectRatio, Overlay } from "@mantine/core";
 import { Card, TypeName } from "../types/api";
 import parseHTML from "html-react-parser";
 import { parseCardText } from "../lib/parsers";
@@ -20,53 +20,59 @@ function onBackgroundClicked(e: React.MouseEvent<HTMLDivElement>, closeFunction:
     closeFunction();
   }
 }
-
 const CardModal = ({ onClose, opened, card }: CardModalProps) => {
   return (
-    <Modal
+    <Modal.Root
       opened={opened}
       onClose={onClose}
-      withCloseButton={false}
       closeOnClickOutside={true}
       centered
       size={"auto"}
       className="container"
       transitionProps={{ transition: enterTransition }}
-      overlayProps={{ blur: 5, backgroundOpacity: 0.9 }}
       classNames={{
         content: "bg-transparent",
       }}
     >
-      <div className="grid grid-cols-[500px,auto,500px] h-[50vh]">
-        <div onClick={(e) => onBackgroundClicked(e, onClose)}></div>
-        <AspectRatio ratio={card?.type_name === TypeName.Investigator ? 7 / 5 : 5 / 7}>
-          <Image
-            src={`https://arkhamdb.com${card?.imagesrc}`}
-            alt={`${card?.name} card art`}
-            className="h-full object-contain"
-          />
-        </AspectRatio>
-        <div
-          className="flex flex-col justify-between p-10"
-          onClick={(e) => onBackgroundClicked(e, onClose)}
-        >
-          <div>
-            <h2 className="text-center text-5xl">{card?.name}</h2>
-            <p className="text-center font-bold text-2xl">{card?.type_name}</p>
+      <Modal.Overlay backgroundOpacity={0.9} blur={5} className="flex justify-center items-end ">
+        {/* TODO: Actually add cycling through cards */}
+        <p>Use the arrow keys to cycle through cards</p>
+      </Modal.Overlay>
+      <Modal.Content>
+        <Modal.Body>
+          <div className="grid grid-cols-[500px,auto,500px] h-[50vh]">
+            <div onClick={(e) => onBackgroundClicked(e, onClose)}></div>
+            <AspectRatio ratio={card?.type_name === TypeName.Investigator ? 7 / 5 : 5 / 7}>
+              <Image
+                src={`https://arkhamdb.com${card?.imagesrc}`}
+                alt={`${card?.name} card art`}
+                className="h-full object-contain"
+              />
+            </AspectRatio>
+            <div
+              className="flex flex-col justify-between p-10"
+              onClick={(e) => onBackgroundClicked(e, onClose)}
+            >
+              <div>
+                <h2 className="text-center text-5xl">{card?.name}</h2>
+                <p className="text-center font-bold text-2xl">{card?.type_name}</p>
+              </div>
+              <div>
+                <p className="text-center text-2xl font-bold">{card?.traits}</p>
+                {/* TODO: Fix this adding a scrollbar when card text is too long */}
+                <p className="text-center text-2xl pt-8">
+                  {card?.text ? parseHTML(parseCardText(card.text)) : ""}
+                </p>
+              </div>
+              <div>
+                <p className="text-center italic">{card?.flavor}</p>
+                <p className="text-center font-bold">{card?.pack_name}</p>
+              </div>
+            </div>
           </div>
-          <div>
-            <p className="text-center text-2xl font-bold">{card?.traits}</p>
-            <p className="text-center text-2xl pt-8">
-              {card?.text ? parseHTML(parseCardText(card.text)) : ""}
-            </p>
-          </div>
-          <div>
-            <p className="text-center italic">{card?.flavor}</p>
-            <p className="text-center font-bold">{card?.pack_name}</p>
-          </div>
-        </div>
-      </div>
-    </Modal>
+        </Modal.Body>
+      </Modal.Content>
+    </Modal.Root>
   );
 };
 
