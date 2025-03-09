@@ -2,11 +2,14 @@ import { MantineTransition, Modal, Image, AspectRatio, Overlay } from "@mantine/
 import { Card, TypeName } from "../types/api";
 import parseHTML from "html-react-parser";
 import { parseCardText } from "../lib/parsers";
+import { useHotkeys } from "@mantine/hooks";
 
 interface CardModalProps {
   opened: boolean;
   onClose: () => void;
   card: Card | null;
+  setModalCard: (card: Card) => void;
+  cards: Card[];
 }
 
 const enterTransition: MantineTransition = {
@@ -20,7 +23,27 @@ function onBackgroundClicked(e: React.MouseEvent<HTMLDivElement>, closeFunction:
     closeFunction();
   }
 }
-const CardModal = ({ onClose, opened, card }: CardModalProps) => {
+
+const CardModal = ({ onClose, opened, card, setModalCard, cards }: CardModalProps) => {
+  useHotkeys([
+    ["ArrowRight", () => advanceCard(1)],
+    ["ArrowLeft", () => advanceCard(-1)],
+  ]);
+
+  function advanceCard(direction: number) {
+    if (!card) {
+      return;
+    }
+    const currentIndex = cards.findIndex((c) => c.code === card.code);
+    const newIndex = currentIndex + direction;
+    if (newIndex < 0 || newIndex >= cards.length) {
+      const wrapIndex = (newIndex + cards.length) % cards.length;
+      setModalCard(cards[wrapIndex]);
+      return;
+    }
+    setModalCard(cards[newIndex]);
+  }
+
   return (
     <Modal.Root
       opened={opened}
@@ -35,8 +58,7 @@ const CardModal = ({ onClose, opened, card }: CardModalProps) => {
       }}
     >
       <Modal.Overlay backgroundOpacity={0.9} blur={5} className="flex justify-center items-end ">
-        {/* TODO: Actually add cycling through cards */}
-        <p>Use the arrow keys to cycle through cards</p>
+        <p className="p-2 opacity-50">Use the arrow keys to cycle through cards</p>
       </Modal.Overlay>
       <Modal.Content>
         <Modal.Body>

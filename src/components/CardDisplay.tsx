@@ -2,7 +2,7 @@
 import { Card } from "../types/api";
 import CardItem from "./CardItem.tsx";
 import { VirtuosoGrid } from "react-virtuoso";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { filterCards, useFilterStore } from "../lib/filter.ts";
 import { useDisclosure } from "@mantine/hooks";
 import CardModal from "./CardModal.tsx";
@@ -51,7 +51,7 @@ const CardDisplay = () => {
           return (
             <CardItem
               card={card}
-              key={card.octgn_id}
+              key={card.code}
               width={columnMinWidth}
               openModal={handlers.open}
               setModalCard={setModalCard}
@@ -60,7 +60,7 @@ const CardDisplay = () => {
         }}
         listClassName="grid grid-cols-[repeat(auto-fit,minmax(var(--min-col-width),1fr))] gap-2 h-full"
       />
-      <CardModal opened={opened} onClose={handlers.close} card={modalCard} />
+      <CardModal opened={opened} onClose={handlers.close} card={modalCard} setModalCard={setModalCard} cards={cards.data}/>
     </div>
   );
 };
