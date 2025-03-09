@@ -26,7 +26,12 @@ const iconPaths: { [key: string]: string } = {
 export function parseCardText(text: string) {
   let newText = text;
   newText = parseIcons(newText);
+  newText = replaceDoubleBrackets(newText);
   return newText.replace(/\n/g, "<br><br>");
+}
+
+function replaceDoubleBrackets(text: string) {
+  return text.replace(/\[\[(.*?)\]\]/g, "<b>$1</b>");
 }
 
 function parseIcons(text: string) {
@@ -36,7 +41,10 @@ function parseIcons(text: string) {
 
   parts.forEach((part) => {
     if (iconPaths[part]) {
-      newText = newText.replace(`[${part}]`, `<Image src=${iconPaths[part]} className="w-10 h-10 inline-flex align-middle"/>`);
+      newText = newText.replace(
+        `[${part}]`,
+        `<Image src=${iconPaths[part]} className="w-10 h-10 inline-flex align-middle"/>`
+      );
     }
   });
 
