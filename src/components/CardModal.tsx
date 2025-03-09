@@ -69,19 +69,19 @@ const CardModal = ({ onClose, opened, card, setModalCard, cards }: CardModalProp
                 src={`https://arkhamdb.com${card?.imagesrc}`}
                 alt={`${card?.name} card art`}
                 className="h-full object-contain"
+                fallbackSrc="https://hallofarkham.com/wp-content/uploads/2020/07/arkham2.png"
               />
             </AspectRatio>
             <div
-              className="flex flex-col justify-between p-10"
+              className="flex flex-col justify-between p-10 overflow-auto"
               onClick={(e) => onBackgroundClicked(e, onClose)}
             >
               <div>
                 <h2 className="text-center text-5xl">{card?.name}</h2>
                 <p className="text-center font-bold text-2xl">{card?.type_name}</p>
               </div>
-              <div>
+              <div >
                 <p className="text-center text-2xl font-bold">{card?.traits}</p>
-                {/* TODO: Fix this adding a scrollbar when card text is too long */}
                 <p className="text-center text-2xl pt-8">
                   {card?.text ? parseHTML(parseCardText(card.text)) : ""}
                 </p>
