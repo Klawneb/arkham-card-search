@@ -1,86 +1,63 @@
 import { useRef, useState, useEffect } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { Card } from "../types/api";
+import React from "react";
+import CardItem from "./CardItem";
+import { useElementSize } from "@mantine/hooks";
 
-type CardGridProps = {
-  items: Card[];
-  cardWidth: number;
+interface CardGridProps {
+  cards: Card[];
   cardHeight: number;
-  gap?: number;
-  minGap?: number;
-};
+  cardWidth: number;
+}
 
-export default function CardGrid({ items, cardWidth, cardHeight, gap = 8, minGap = 8 }: CardGridProps) {
-  const parentRef = useRef<HTMLDivElement>(null);
-  const [columnCount, setColumnCount] = useState(1);
-  const [adjustedGap, setAdjustedGap] = useState(gap);
+function CardGrid({ cards, cardHeight, cardWidth }: CardGridProps) {
+  const parentRef = React.useRef(null);
+  const { ref, width } = useElementSize();
 
-  useEffect(() => {
-    const updateLayout = () => {
-      if (parentRef.current) {
-        const containerWidth = parentRef.current.clientWidth;
-        const maxColumns = Math.max(1, Math.floor((containerWidth + minGap) / (cardWidth + minGap)));
-        const totalCardWidth = maxColumns * cardWidth;
-        const remainingSpace = containerWidth - totalCardWidth;
-        let newGap = maxColumns > 1 ? remainingSpace / (maxColumns - 1) : minGap;
-        
-        newGap = Math.max(newGap, minGap);
-
-        setColumnCount(maxColumns);
-        setAdjustedGap(newGap);
-      }
-    };
-    
-    updateLayout();
-    window.addEventListener("resize", updateLayout);
-    return () => window.removeEventListener("resize", updateLayout);
-  }, [cardWidth, gap, minGap]);
-
-  const rowCount = Math.ceil(items.length / columnCount);
+  const cardsPerRow = Math.floor(width / cardWidth);
+  console.log(cardsPerRow);
 
   const rowVirtualizer = useVirtualizer({
-    count: rowCount,
+    count: width > 0 ? cards.length / cardsPerRow : 0,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => cardHeight + minGap, // Ensuring a consistent row height
+    estimateSize: () => cardHeight,
+    overscan: 5,
   });
 
   return (
-    <div ref={parentRef} className="w-full h-full overflow-auto">
-      <div
-        style={{ height: rowVirtualizer.getTotalSize(), position: "relative" }}
-        className="w-full"
-      >
-        {rowVirtualizer.getVirtualItems().map((virtualRow) => {
-          const startIndex = virtualRow.index * columnCount;
-          const rowItems = items.slice(startIndex, startIndex + columnCount);
-
-          return (
+    <div ref={ref} className="w-full h-full">
+      <div ref={parentRef} className="w-full h-full overflow-auto">
+        <div
+          style={{
+            height: `${rowVirtualizer.getTotalSize()}px`,
+            width: "100%",
+            position: "relative",
+          }}
+        >
+          {rowVirtualizer.getVirtualItems().map((virtualRow) => (
             <div
-              key={virtualRow.key}
-              className="absolute flex justify-center"
+              key={virtualRow.index}
               style={{
-                top: virtualRow.start,
+                position: "absolute",
+                top: 0,
                 left: 0,
                 width: "100%",
-                height: cardHeight,
-                display: "flex",
-                gap: `${adjustedGap}px`,
-                marginBottom: `${adjustedGap}px`,
+                height: `${virtualRow.size}px`,
+                transform: `translateY(${virtualRow.start}px)`,
               }}
             >
-              {rowItems.map((item) => (
-                <div
-                  key={item.code}
-                  className="bg-gray-800 text-white p-4 rounded-lg shadow-md"
-                  style={{ width: cardWidth, height: cardHeight }}
-                >
-                  {item.name}
-                </div>
-              ))}
+              <div className="m-2 h-full flex justify-between">
+                {cards.slice(virtualRow.index * cardsPerRow, (virtualRow.index * cardsPerRow) + cardsPerRow).map((card ) => {
+                  return <CardItem card={card} />
+                })}
+              </div>
             </div>
-          );
-        })}
+          ))}
+        </div>
       </div>
     </div>
   );
 }
+
+export default CardGrid;

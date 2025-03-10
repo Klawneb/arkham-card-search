@@ -18,19 +18,6 @@ const CardItem = ({ card, openModal, setModalCard }: CardItemProps) => {
     <AnimatePresence>
       <div className="flex justify-center cursor-pointer" onClick={handleClick}>
         <AspectRatio ratio={5 / 7} className="rounded-md overflow-hidden">
-          {card.imagesrc ? null : (
-            <div className="absolute flex flex-col justify-center items-center">
-              {card.name.split(" ").map((word, index) => (
-                <p
-                  key={index}
-                  className="font-black text-white select-none text-4xl"
-                  style={{ mixBlendMode: "exclusion" }}
-                >
-                  {word}
-                </p>
-              ))}
-            </div>
-          )}
           <Image
             src={`https://arkhamdb.com${card.imagesrc}`}
             className="h-full object-cover object-left"

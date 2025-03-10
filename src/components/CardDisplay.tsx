@@ -6,6 +6,7 @@ import { useDisclosure } from "@mantine/hooks";
 import CardModal from "./CardModal.tsx";
 import CardGrid from "./CardGrid.tsx";
 import CardItem from "./CardItem.tsx";
+import GridVirtualizerFixed from "./CardGrid.tsx";
 
 async function fetchCards(): Promise<Card[]> {
   const response = await fetch("https://arkhamdb.com/api/public/cards/");
@@ -35,8 +36,8 @@ const CardDisplay = () => {
   const filteredCards = filterCards(cards.data, filterStore);
 
   return (
-    <div className="flex-grow flex">
-      <CardGrid items={filteredCards} cardHeight={280} cardWidth={200}/>
+    <div className="flex-grow">
+      <CardGrid cardHeight={280} cardWidth={200} cards={filteredCards}/>
       <CardModal
         opened={opened}
         onClose={handlers.close}
