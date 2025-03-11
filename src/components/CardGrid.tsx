@@ -20,11 +20,13 @@ function CardGrid({ cards, cardHeight, cardWidth, setModalCard, openModal }: Car
   const cardsPerRow = Math.floor(width / cardWidth);
 
   const rowVirtualizer = useVirtualizer({
-    count: width > 0 ? cards.length / cardsPerRow : 0,
+    count: width > 0 ? Math.ceil(cards.length / cardsPerRow) : 0,
     getScrollElement: () => parentRef.current,
     estimateSize: () => cardHeight,
     overscan: 1,
   });
+
+  console.log(cards);
 
   return (
     <div ref={ref} className="w-full h-full">
@@ -48,7 +50,7 @@ function CardGrid({ cards, cardHeight, cardWidth, setModalCard, openModal }: Car
                 transform: `translateY(${virtualRow.start}px)`,
               }}
             >
-              <div className="m-2 h-full flex justify-between">
+              <div className="flex justify-center">
                 {cards
                   .slice(
                     virtualRow.index * cardsPerRow,
