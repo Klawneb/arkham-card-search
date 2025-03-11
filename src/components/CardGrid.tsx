@@ -13,20 +13,27 @@ interface CardGridProps {
   openModal: () => void;
 }
 
-function CardGrid({ cards, cardHeight, cardWidth, setModalCard, openModal }: CardGridProps) {
+function CardGrid({
+  cards,
+  cardHeight,
+  cardWidth,
+  setModalCard,
+  openModal,
+}: CardGridProps) {
   const parentRef = React.useRef(null);
   const { ref, width } = useElementSize();
 
-  const cardsPerRow = Math.floor(width / cardWidth);
+  const cardsPerRow = Math.max(1, Math.floor(width / (cardWidth)));
+  const emptySpace = width - (cardWidth * cardsPerRow);
+  const cardMarginX = Math.max((emptySpace / cardsPerRow) / 2, 4);
+  const cardMarginY = 12
 
   const rowVirtualizer = useVirtualizer({
     count: width > 0 ? Math.ceil(cards.length / cardsPerRow) : 0,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => cardHeight,
+    estimateSize: () => cardHeight + cardMarginY,
     overscan: 1,
   });
-
-  console.log(cards);
 
   return (
     <div ref={ref} className="w-full h-full">
@@ -50,7 +57,7 @@ function CardGrid({ cards, cardHeight, cardWidth, setModalCard, openModal }: Car
                 transform: `translateY(${virtualRow.start}px)`,
               }}
             >
-              <div className="flex justify-center">
+              <div className="flex justify-start">
                 {cards
                   .slice(
                     virtualRow.index * cardsPerRow,
@@ -58,14 +65,15 @@ function CardGrid({ cards, cardHeight, cardWidth, setModalCard, openModal }: Car
                   )
                   .map((card) => {
                     return (
-                      <CardItem
-                        card={card}
-                        height={cardHeight}
-                        width={cardWidth}
-                        key={card.code}
-                        setModalCard={setModalCard}
-                        openModal={openModal}
-                      />
+                      <div key={card.code} style={{ margin: `0px ${cardMarginX}px`}}>
+                        <CardItem
+                          card={card}
+                          height={cardHeight}
+                          width={cardWidth}
+                          setModalCard={setModalCard}
+                          openModal={openModal}
+                        />
+                      </div>
                     );
                   })}
               </div>
