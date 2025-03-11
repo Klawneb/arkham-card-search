@@ -37,7 +37,13 @@ const CardDisplay = () => {
 
   return (
     <div className="flex-grow">
-      <CardGrid cardHeight={280} cardWidth={200} cards={filteredCards}/>
+      <CardGrid
+        cardHeight={280}
+        cardWidth={200}
+        cards={filteredCards}
+        openModal={handlers.open}
+        setModalCard={setModalCard}
+      />
       <CardModal
         opened={opened}
         onClose={handlers.close}

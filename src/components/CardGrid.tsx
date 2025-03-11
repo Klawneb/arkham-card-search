@@ -9,9 +9,11 @@ interface CardGridProps {
   cards: Card[];
   cardHeight: number;
   cardWidth: number;
+  setModalCard: (card: Card) => void;
+  openModal: () => void;
 }
 
-function CardGrid({ cards, cardHeight, cardWidth }: CardGridProps) {
+function CardGrid({ cards, cardHeight, cardWidth, setModalCard, openModal }: CardGridProps) {
   const parentRef = React.useRef(null);
   const { ref, width } = useElementSize();
 
@@ -22,7 +24,7 @@ function CardGrid({ cards, cardHeight, cardWidth }: CardGridProps) {
     count: width > 0 ? cards.length / cardsPerRow : 0,
     getScrollElement: () => parentRef.current,
     estimateSize: () => cardHeight,
-    overscan: 5,
+    overscan: 1,
   });
 
   return (
@@ -48,9 +50,23 @@ function CardGrid({ cards, cardHeight, cardWidth }: CardGridProps) {
               }}
             >
               <div className="m-2 h-full flex justify-between">
-                {cards.slice(virtualRow.index * cardsPerRow, (virtualRow.index * cardsPerRow) + cardsPerRow).map((card ) => {
-                  return <CardItem card={card} />
-                })}
+                {cards
+                  .slice(
+                    virtualRow.index * cardsPerRow,
+                    virtualRow.index * cardsPerRow + cardsPerRow
+                  )
+                  .map((card) => {
+                    return (
+                      <CardItem
+                        card={card}
+                        height={cardHeight}
+                        width={cardWidth}
+                        key={card.code}
+                        setModalCard={setModalCard}
+                        openModal={openModal}
+                      />
+                    );
+                  })}
               </div>
             </div>
           ))}
