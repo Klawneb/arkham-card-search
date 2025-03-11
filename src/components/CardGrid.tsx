@@ -18,7 +18,6 @@ function CardGrid({ cards, cardHeight, cardWidth, setModalCard, openModal }: Car
   const { ref, width } = useElementSize();
 
   const cardsPerRow = Math.floor(width / cardWidth);
-  console.log(cardsPerRow);
 
   const rowVirtualizer = useVirtualizer({
     count: width > 0 ? cards.length / cardsPerRow : 0,
