@@ -41,7 +41,7 @@ const CardDisplay = ({ cards }: CardDisplayProps) => {
         onClose={handlers.close}
         card={modalCard}
         setModalCard={setModalCard}
-        cards={cards}
+        cards={filteredCards}
       />
     </div>
   );
