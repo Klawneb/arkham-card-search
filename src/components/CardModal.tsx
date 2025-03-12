@@ -5,6 +5,7 @@ import { parseCardText } from "../lib/parsers";
 import { useHotkeys } from "@mantine/hooks";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import GlowingEdgeDiv from "./GlowingEdgeDiv";
 
 interface CardModalProps {
   opened: boolean;
@@ -23,15 +24,15 @@ const enterTransition: MantineTransition = {
 const carouselVariants = {
   enter: (direction: number) => ({
     x: direction > 0 ? "100%" : "-100%",
-    opacity: 0
+    opacity: 0,
   }),
   center: {
     x: 0,
-    opacity: 1
+    opacity: 1,
   },
   exit: (direction: number) => ({
     x: direction > 0 ? "-100%" : "100%",
-    opacity: 0
+    opacity: 0,
   }),
 };
 
@@ -54,18 +55,26 @@ const CardModal = ({ onClose, opened, card, setModalCard, cards }: CardModalProp
     [
       "ArrowRight",
       () => {
-        setDirection(1);
-        setModalCard(cards[(currentCardIndex + 1) % cards.length]);
+        moveRight();
       },
     ],
     [
       "ArrowLeft",
       () => {
-        setDirection(-1);
-        setModalCard(cards[(currentCardIndex - 1 + cards.length) % cards.length]);
+        moveLeft();
       },
     ],
   ]);
+
+  function moveRight() {
+    setDirection(1);
+    setModalCard(cards[(currentCardIndex + 1) % cards.length]);
+  }
+
+  function moveLeft() {
+    setDirection(-1);
+    setModalCard(cards[(currentCardIndex - 1 + cards.length) % cards.length]);
+  }
 
   return (
     <Modal.Root
@@ -80,8 +89,11 @@ const CardModal = ({ onClose, opened, card, setModalCard, cards }: CardModalProp
         content: "bg-transparent",
       }}
     >
-      <Modal.Overlay backgroundOpacity={0.9} blur={5} className="flex justify-center items-end ">
-        <p className="p-2 opacity-50">Use the arrow keys to cycle through cards</p>
+      <Modal.Overlay backgroundOpacity={0.9} blur={5}>
+        <GlowingEdgeDiv leftOnClick={moveLeft} rightOnClick={moveRight} />
+        <div className="opacity-50 absolute bottom-0 left-1/2 transform -translate-x-1/2 mb-4">
+          <p>Use the arrow keys to navigate</p>
+        </div>
       </Modal.Overlay>
       <Modal.Content>
         <Modal.Body>
