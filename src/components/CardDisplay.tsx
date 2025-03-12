@@ -8,24 +8,16 @@ import CardGrid from "./CardGrid.tsx";
 import CardItem from "./CardItem.tsx";
 import GridVirtualizerFixed from "./CardGrid.tsx";
 
-async function fetchCards(): Promise<Card[]> {
-  const response = await fetch("https://arkhamdb.com/api/public/cards/");
-  if (!response.ok) {
-    throw new Error(response.statusText);
-  }
-  return response.json();
+interface CardDisplayProps {
+  cards: Card[];
 }
 
-const CardDisplay = () => {
-  const cards = useQuery({
-    queryKey: ["cards"],
-    queryFn: fetchCards,
-  });
+const CardDisplay = ({ cards }: CardDisplayProps) => {
   const [opened, handlers] = useDisclosure(false);
   const [modalCard, setModalCard] = useState<Card | null>(null);
   const filterStore = useFilterStore();
 
-  if (!cards.data) {
+  if (cards.length === 0) {
     return (
       <div>
         <p>Loading...</p>
@@ -33,7 +25,7 @@ const CardDisplay = () => {
     );
   }
 
-  const filteredCards = filterCards(cards.data, filterStore);
+  const filteredCards = filterCards(cards, filterStore);
 
   return (
     <div className="flex-grow">
@@ -49,7 +41,7 @@ const CardDisplay = () => {
         onClose={handlers.close}
         card={modalCard}
         setModalCard={setModalCard}
-        cards={cards.data}
+        cards={cards}
       />
     </div>
   );

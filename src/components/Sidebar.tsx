@@ -1,28 +1,32 @@
 import { Accordion, Divider } from "@mantine/core";
 import TextFilter from "./Sidebar/TextFilter.tsx";
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import FactionFilter from "./Sidebar/FactionFilter.tsx";
 import XPFilter from "./Sidebar/XPFilter.tsx";
 import ResourceFilter from "./Sidebar/ResourceFilter.tsx";
 import TypeFilter from "./Sidebar/TypeFilter.tsx";
+import TraitFilter from "./Sidebar/TraitFilter.tsx";
+import { Card } from "../types/api.ts";
+
+interface SidebarProps {
+  cards: Card[];
+}
 
 interface AccordionItemProps {
   name: string;
-  Component: React.FC;
+  children: ReactNode;
 }
 
-const AccordionItem = ({ name, Component }: AccordionItemProps) => {
+const AccordionItem = ({ name, children }: AccordionItemProps) => {
   return (
     <Accordion.Item key={name} value={name}>
       <Accordion.Control>{name}</Accordion.Control>
-      <Accordion.Panel styles={{ content: { padding: "0" } }}>
-        <Component />
-      </Accordion.Panel>
+      <Accordion.Panel styles={{ content: { padding: "0" } }}>{children}</Accordion.Panel>
     </Accordion.Item>
   );
 };
 
-const Sidebar = () => {
+const Sidebar = ({ cards }: SidebarProps) => {
   const [value, setValue] = useState<string[]>(["Search"]);
 
   return (
@@ -30,11 +34,24 @@ const Sidebar = () => {
       <p className="text-center text-2xl">Card Filter</p>
       <Divider />
       <Accordion multiple styles={{ label: { padding: 6 } }} value={value} onChange={setValue}>
-        <AccordionItem name={"Search"} Component={TextFilter} />
-        <AccordionItem name={"Faction"} Component={FactionFilter} />
-        <AccordionItem name={"XP Cost"} Component={XPFilter} />
-        <AccordionItem name={"Resource Cost"} Component={ResourceFilter} />
-        <AccordionItem name={"Type"} Component={TypeFilter} />
+        <AccordionItem name={"Search"}>
+          <TextFilter />
+        </AccordionItem>
+        <AccordionItem name={"Faction"}>
+          <FactionFilter />
+        </AccordionItem>
+        <AccordionItem name={"XP Cost"}>
+          <XPFilter />
+        </AccordionItem>
+        <AccordionItem name={"Resource Cost"}>
+          <ResourceFilter />
+        </AccordionItem>
+        <AccordionItem name={"Type"}>
+          <TypeFilter />
+        </AccordionItem>
+        <AccordionItem name={"Traits"}>
+          <TraitFilter cards={cards} />
+        </AccordionItem>
       </Accordion>
     </div>
   );
