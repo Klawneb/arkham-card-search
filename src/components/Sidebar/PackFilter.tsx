@@ -89,7 +89,7 @@ const PackFilter = () => {
 
   return (
     <div className="flex flex-col h-[400px] overflow-auto">
-      <Accordion>
+      <Accordion multiple={true}>
         {getBasePacks(packs.data)
           .sort((a, b) => a.cycle_position - b.cycle_position)
           .map((pack) => {
