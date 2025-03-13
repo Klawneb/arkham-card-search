@@ -4,7 +4,7 @@ const iconPaths: { [key: string]: string } = {
   auto_fail: "icons\\auto_fail.svg",
   bless: "icons\\bless.svg",
   combat: "icons\\combat.svg",
-  cultist: "src\\assets\\icons\\cultist.svg",
+  cultist: "\\icons\\cultist.svg",
   curse: "icons\\curse.svg",
   elder_sign: "icons\\elder_sign.svg",
   elder_thing: "icons\\elder_thing.svg",
