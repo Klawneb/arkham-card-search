@@ -38,18 +38,17 @@ const TraitFilter = ({ cards }: TraitFilterProps) => {
   const filterStore = useFilterStore();
   const traits = getTraitList(cards);
   const [searchFilter, setSearchFilter] = useState("");
-  const [selectedTraits, setSelectedTraits] = useState<string[]>([]);
 
   function addSelectedTrait(trait: string) {
-    setSelectedTraits((prev) => [...prev, trait]);
+    filterStore.setTraitFilter([...filterStore.traitFilter, trait]);
   }
 
   function removeSelectedTrait(trait: string) {
-    setSelectedTraits((prev) => prev.filter((t) => t !== trait));
+    filterStore.setTraitFilter(filterStore.traitFilter.filter((t) => t !== trait));
   }
 
   function removeSelected(traits: string[]) {
-    return traits.filter((trait) => !selectedTraits.includes(trait));
+    return traits.filter((trait) => !filterStore.traitFilter.includes(trait));
   }
 
   function filterSearch(traits: string[]) {
@@ -79,15 +78,28 @@ const TraitFilter = ({ cards }: TraitFilterProps) => {
         placeholder="Trait search"
         className="m-2"
       />
-      <div className="grid grid-cols-3 gap-2 p-2">
-        {selectedTraits.map((trait) => {
+      <div className="grid grid-cols-2 gap-2 p-2">
+        {filterStore.traitFilter.map((trait) => {
           return (
-            <button
+            <div
               onClick={() => removeSelectedTrait(trait)}
-              className="bg-stone-700 rounded-xl hover:bg-red-800 transition-all py-1 text-sm"
+              className="bg-stone-700 rounded-xl transition-all p-2 text-sm flex items-center"
             >
-              {trait}
-            </button>
+              <p className="flex-1 text-center block truncate">{trait}</p>
+              <button className="w-5 hover:scale-125 stroke-stone-400 hover:stroke-red-500 transition-all">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M18 6 6 18" />
+                  <path d="m6 6 12 12" />
+                </svg>
+              </button>
+            </div>
           );
         })}
       </div>
