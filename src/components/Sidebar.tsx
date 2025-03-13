@@ -1,6 +1,6 @@
 import { Accordion, Divider } from "@mantine/core";
 import TextFilter from "./Sidebar/TextFilter.tsx";
-import React, { ReactNode, useState } from "react";
+import { ReactNode, useState } from "react";
 import FactionFilter from "./Sidebar/FactionFilter.tsx";
 import XPFilter from "./Sidebar/XPFilter.tsx";
 import ResourceFilter from "./Sidebar/ResourceFilter.tsx";

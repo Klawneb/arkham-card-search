@@ -1,9 +1,7 @@
-import { useInputState, useSet } from "@mantine/hooks";
 import { useFilterStore } from "../../lib/filter";
 import { Card } from "../../types/api";
-import { Autocomplete, Button, Chip, rem, TextInput, Tooltip } from "@mantine/core";
+import { Autocomplete, } from "@mantine/core";
 import { useState } from "react";
-import { motion } from "framer-motion";
 
 interface TraitFilterProps {
   cards: Card[];

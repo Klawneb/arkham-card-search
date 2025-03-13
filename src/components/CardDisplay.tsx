@@ -1,12 +1,9 @@
-﻿import { useQuery } from "@tanstack/react-query";
-import { Card } from "../types/api";
+﻿import { Card } from "../types/api";
 import { useState } from "react";
 import { filterCards, useFilterStore } from "../lib/filter.ts";
 import { useDisclosure } from "@mantine/hooks";
 import CardModal from "./CardModal.tsx";
 import CardGrid from "./CardGrid.tsx";
-import CardItem from "./CardItem.tsx";
-import GridVirtualizerFixed from "./CardGrid.tsx";
 
 interface CardDisplayProps {
   cards: Card[];

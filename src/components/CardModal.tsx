@@ -1,4 +1,4 @@
-import { MantineTransition, Modal, Image, AspectRatio, Overlay } from "@mantine/core";
+import { MantineTransition, Modal, Image, AspectRatio } from "@mantine/core";
 import { Card, TypeName } from "../types/api";
 import parseHTML from "html-react-parser";
 import { parseCardText } from "../lib/parsers";
