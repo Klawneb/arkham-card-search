@@ -1,7 +1,9 @@
 import { useInputState, useSet } from "@mantine/hooks";
 import { useFilterStore } from "../../lib/filter";
 import { Card } from "../../types/api";
-import { TextInput } from "@mantine/core";
+import { Autocomplete, Button, Chip, rem, TextInput, Tooltip } from "@mantine/core";
+import { useState } from "react";
+import { motion } from "framer-motion";
 
 interface TraitFilterProps {
   cards: Card[];
@@ -27,8 +29,6 @@ function getTraitList(cards: Card[]): string[] {
     });
   });
 
-  console.log(traitMap);
-
   return Array.from(traitMap.entries())
     .sort((a, b) => b[1] - a[1])
     .map((pair) => pair[0]);
@@ -37,37 +37,60 @@ function getTraitList(cards: Card[]): string[] {
 const TraitFilter = ({ cards }: TraitFilterProps) => {
   const filterStore = useFilterStore();
   const traits = getTraitList(cards);
-  const [searchFilter, setSearchFilter] = useInputState("");
+  const [searchFilter, setSearchFilter] = useState("");
+  const [selectedTraits, setSelectedTraits] = useState<string[]>([]);
 
-  const filteredTraits = traits.filter((trait) => trait.toLowerCase().includes(searchFilter.toLowerCase()));
+  function addSelectedTrait(trait: string) {
+    setSelectedTraits((prev) => [...prev, trait]);
+  }
+
+  function removeSelectedTrait(trait: string) {
+    setSelectedTraits((prev) => prev.filter((t) => t !== trait));
+  }
+
+  function removeSelected(traits: string[]) {
+    return traits.filter((trait) => !selectedTraits.includes(trait));
+  }
+
+  function filterSearch(traits: string[]) {
+    return traits.filter((trait) => trait.toLowerCase().includes(searchFilter.toLowerCase()));
+  }
+
+  function filterTraits(traits: string[]) {
+    let filtered = removeSelected(traits);
+    filtered = filterSearch(filtered);
+    return filtered;
+  }
+
+  const filteredTraits = filterTraits(traits);
 
   return (
     <div className="">
-      <TextInput
-        className="m-2"
-        placeholder="Filter Traits"
+      <Autocomplete
+        data={filteredTraits}
         value={searchFilter}
-        onChange={setSearchFilter}
+        onChange={(v) => {
+          setSearchFilter(v);
+        }}
+        onOptionSubmit={(v) => {
+          addSelectedTrait(v);
+          setTimeout(() => setSearchFilter(""), 0);
+        }}
+        placeholder="Trait search"
+        className="m-2"
       />
-      {
-        filteredTraits.length > 0 ?
-        <div className="h-[300px] overflow-auto border-t-stone-700 border-t-[1px] border-separate">
-        {filteredTraits.map((trait, index) => {
+      <div className="grid grid-cols-3 gap-2 p-2">
+        {selectedTraits.map((trait) => {
           return (
-            <p
-              className={`${
-                index % 2 === 0 ? "bg-stone-800" : "bg-stone-700 bg-opacity-50"
-              } p-1 hover:bg-stone-600 cursor-pointer transition-all duration-75`}
+            <button
+              onClick={() => removeSelectedTrait(trait)}
+              className="bg-stone-700 rounded-xl hover:bg-red-800 transition-all py-1 text-sm"
             >
               {trait}
-            </p>
+            </button>
           );
         })}
       </div>
-      :
-      <p className="text-center p-2">No matching traits.</p>
-      }
-      
     </div>
   );
 };
