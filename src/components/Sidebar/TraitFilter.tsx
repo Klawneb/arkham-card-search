@@ -78,12 +78,12 @@ const TraitFilter = ({ cards }: TraitFilterProps) => {
         placeholder="Trait search"
         className="m-2"
       />
-      <div className="grid grid-cols-2 gap-2 p-2">
+      <div className="grid grid-cols-2 gap-2 m-2">
         {filterStore.traitFilter.map((trait) => {
           return (
             <div
               onClick={() => removeSelectedTrait(trait)}
-              className="bg-stone-700 rounded-xl transition-all p-2 text-sm flex items-center"
+              className="bg-[#545454] rounded-3xl border-stone-500 border-2 transition-all p-2 text-sm flex items-center"
             >
               <p className="flex-1 text-center block truncate">{trait}</p>
               <button className="w-5 hover:scale-125 stroke-stone-400 hover:stroke-red-500 transition-all">
