@@ -1,6 +1,5 @@
-import { AspectRatio, Image } from "@mantine/core";
+import { Image } from "@mantine/core";
 import { Card } from "../types/api";
-import { AnimatePresence, motion } from "framer-motion";
 
 interface CardItemProps {
   card: Card;
