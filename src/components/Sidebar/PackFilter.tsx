@@ -95,15 +95,19 @@ const PackFilter = () => {
           .map((pack) => {
             return (
               <Accordion.Item value={pack.name} key={pack.id}>
-                <Accordion.Control className="p-0" classNames={{ label: "p-1" }}>
+                <Accordion.Control 
+                  className="p-0" 
+                  classNames={{ label: "p-1" }}
+                >
                   <div className="flex items-center">
-                    <Checkbox
-                      checked={isBasePackEnabled(pack)}
-                      onChange={(e) => {
-                        e.stopPropagation();
-                        handleBasePackClick(pack);
-                      }}
-                    />
+                    <div onClick={(e) => e.stopPropagation()}>
+                      <Checkbox
+                        checked={isBasePackEnabled(pack)}
+                        onChange={(e) => {
+                          handleBasePackClick(pack);
+                        }}
+                      />
+                    </div>
                     <p className="pl-2">{fixBasePackName(pack)}</p>
                   </div>
                 </Accordion.Control>
