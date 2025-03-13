@@ -7,6 +7,7 @@ import ResourceFilter from "./Sidebar/ResourceFilter.tsx";
 import TypeFilter from "./Sidebar/TypeFilter.tsx";
 import TraitFilter from "./Sidebar/TraitFilter.tsx";
 import { Card } from "../types/api.ts";
+import PackFilter from "./Sidebar/PackFilter.tsx";
 
 interface SidebarProps {
   cards: Card[];
@@ -36,6 +37,9 @@ const Sidebar = ({ cards }: SidebarProps) => {
       <Accordion multiple styles={{ label: { padding: 6 } }} value={value} onChange={setValue}>
         <AccordionItem name={"Search"}>
           <TextFilter />
+        </AccordionItem>
+        <AccordionItem name={"Packs"}>
+          <PackFilter />
         </AccordionItem>
         <AccordionItem name={"Faction"}>
           <FactionFilter />
