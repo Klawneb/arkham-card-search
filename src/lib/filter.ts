@@ -19,6 +19,8 @@ interface FilterState {
   setTypeFilter: (types: Type[]) => void;
   traitFilter: string[];
   setTraitFilter: (traits: string[]) => void;
+  packFilter: string[];
+  setPackFilter: (packs: string[]) => void;
 }
 
 export const useFilterStore = create<FilterState>((set) => ({
@@ -38,6 +40,8 @@ export const useFilterStore = create<FilterState>((set) => ({
   setTypeFilter: (types) => set({ typeFilter: types }),
   traitFilter: [],
   setTraitFilter: (traits) => set({ traitFilter: traits }),
+  packFilter: [],
+  setPackFilter: (packs) => set({ packFilter: packs})
 }));
 
 function textFilter(cards: Card[], filter: FilterState) {
@@ -67,6 +71,14 @@ function traitFilter(cards: Card[], filter: FilterState) {
       cardTraits.some((cardTrait) => cardTrait.toLowerCase().includes(filterTrait.toLowerCase()))
     );
   });
+}
+
+function packFilter(cards: Card[], filter: FilterState) {
+  if (filter.packFilter.length === 0) {
+    return cards
+  }
+
+  return cards.filter(card => filter.packFilter.includes(card.pack_code));
 }
 
 function factionFilter(cards: Card[], filter: FilterState) {
@@ -120,7 +132,7 @@ function typeFilter(cards: Card[], filter: FilterState) {
 }
 
 export function filterCards(cards: Card[], filter: FilterState): Card[] {
-  const filters = [textFilter, factionFilter, xpFilter, resourceFilter, typeFilter, traitFilter];
+  const filters = [textFilter, factionFilter, xpFilter, resourceFilter, typeFilter, traitFilter, packFilter];
 
   return filters.reduce((filteredCards, filterFn) => {
     return filterFn(filteredCards, filter);
