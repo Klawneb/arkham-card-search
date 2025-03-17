@@ -21,6 +21,8 @@ interface FilterState {
   setTraitFilter: (traits: string[]) => void;
   packFilter: string[];
   setPackFilter: (packs: string[]) => void;
+  investigatorFilter: Card | null;
+  setInvestigatorFilter: (card: Card | null) => void;
 }
 
 export const useFilterStore = create<FilterState>((set) => ({
@@ -41,14 +43,16 @@ export const useFilterStore = create<FilterState>((set) => ({
   traitFilter: [],
   setTraitFilter: (traits) => set({ traitFilter: traits }),
   packFilter: [],
-  setPackFilter: (packs) => set({ packFilter: packs})
+  setPackFilter: (packs) => set({ packFilter: packs }),
+  investigatorFilter: null,
+  setInvestigatorFilter: (card) => set({ investigatorFilter: card }),
 }));
 
 function textFilter(cards: Card[], filter: FilterState) {
   const results = fuzzysort.go(filter.textFilter, cards, {
     keys: filter.filterTitlesOnly ? ["name"] : ["name", "text"],
     all: true,
-    threshold: filter.showAllResults ? 0 : 0.5,
+    threshold: filter.showAllResults ? 0 : 0.25,
   });
   return results
     .map((key) => key)
@@ -75,10 +79,10 @@ function traitFilter(cards: Card[], filter: FilterState) {
 
 function packFilter(cards: Card[], filter: FilterState) {
   if (filter.packFilter.length === 0) {
-    return cards
+    return cards;
   }
 
-  return cards.filter(card => filter.packFilter.includes(card.pack_code));
+  return cards.filter((card) => filter.packFilter.includes(card.pack_code));
 }
 
 function factionFilter(cards: Card[], filter: FilterState) {
@@ -131,8 +135,90 @@ function typeFilter(cards: Card[], filter: FilterState) {
   });
 }
 
+function investigatorFilter(cards: Card[], filter: FilterState) {
+  if (!filter.investigatorFilter) {
+    return cards;
+  }
+
+  const deckOptions = filter.investigatorFilter.deck_options;
+
+  if (!deckOptions) {
+    return cards;
+  }
+
+  return cards.filter((card) => {
+    if (
+      card.type_code === Type.Enemy ||
+      card.type_code === Type.Investigator ||
+      card.type_code === Type.Treachery ||
+      card.subtype_code
+    ) {
+      return false;
+    }
+
+    return deckOptions.some((deckOption) => {
+      let isValid = true;
+
+      if (deckOption.faction) {
+        const factions = deckOption.faction;
+        isValid =
+          isValid &&
+          factions.some(
+            (faction) =>
+              card.faction_code === faction ||
+              card.faction2_code === faction ||
+              card.faction3_code === faction
+          );
+      }
+
+      if (deckOption.level) {
+        if (card.xp) {
+          isValid = isValid && card.xp >= deckOption.level.min && card.xp <= deckOption.level.max;
+        }
+      }
+
+      if (deckOption.trait) {
+        const cardTraits = card.traits?.split(".").map((t) => t.trim().toLowerCase());
+        isValid =
+          isValid &&
+          deckOption.trait.some((trait) => cardTraits?.some((cardTrait) => trait === cardTrait));
+      }
+
+      if (deckOption.tag) {
+        const cardTags = card.tags?.split(".").map((t) => t.trim().toLowerCase());
+
+        isValid =
+          isValid && deckOption.tag.some((tag) => cardTags?.some((cardTag) => tag === cardTag));
+      }
+
+      if (deckOption.type) {
+        isValid = isValid && deckOption.type.some((type) => card.type_code === type);
+      }
+
+      if (deckOption.uses) {
+        isValid =
+          isValid &&
+          deckOption.uses.some((use) => card.text?.toLowerCase().includes(use.toLowerCase()));
+      }
+
+      //TODO: Add logic for the not field in deck options
+
+      return isValid;
+    });
+  });
+}
+
 export function filterCards(cards: Card[], filter: FilterState): Card[] {
-  const filters = [textFilter, factionFilter, xpFilter, resourceFilter, typeFilter, traitFilter, packFilter];
+  const filters = [
+    textFilter,
+    factionFilter,
+    xpFilter,
+    resourceFilter,
+    typeFilter,
+    traitFilter,
+    packFilter,
+    investigatorFilter,
+  ];
 
   return filters.reduce((filteredCards, filterFn) => {
     return filterFn(filteredCards, filter);
