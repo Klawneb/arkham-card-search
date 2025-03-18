@@ -156,55 +156,60 @@ function investigatorFilter(cards: Card[], filter: FilterState) {
       return false;
     }
 
-    return deckOptions.some((deckOption) => {
-      let isValid = true;
+    let isRestricted = false;
 
-      if (deckOption.faction) {
-        const factions = deckOption.faction;
-        isValid =
-          isValid &&
-          factions.some(
-            (faction) =>
-              card.faction_code === faction ||
-              card.faction2_code === faction ||
-              card.faction3_code === faction
-          );
-      }
+    return (
+      deckOptions.some((deckOption) => {
+        let isValid = true;
 
-      if (deckOption.level) {
-        if (card.xp) {
-          isValid = isValid && card.xp >= deckOption.level.min && card.xp <= deckOption.level.max;
+        if (deckOption.faction) {
+          const factions = deckOption.faction;
+          isValid =
+            isValid &&
+            factions.some(
+              (faction) =>
+                card.faction_code === faction ||
+                card.faction2_code === faction ||
+                card.faction3_code === faction
+            );
         }
-      }
 
-      if (deckOption.trait) {
-        const cardTraits = card.traits?.split(".").map((t) => t.trim().toLowerCase());
-        isValid =
-          isValid &&
-          deckOption.trait.some((trait) => cardTraits?.some((cardTrait) => trait === cardTrait));
-      }
+        if (deckOption.level) {
+          let cardCost = card.xp ?? 0;
+          isValid = isValid && cardCost >= deckOption.level.min && cardCost <= deckOption.level.max;
+        }
 
-      if (deckOption.tag) {
-        const cardTags = card.tags?.split(".").map((t) => t.trim().toLowerCase());
+        if (deckOption.trait) {
+          const cardTraits = card.traits?.split(".").map((t) => t.trim().toLowerCase());
+          isValid =
+            isValid &&
+            deckOption.trait.some((trait) => cardTraits?.some((cardTrait) => trait === cardTrait));
+        }
 
-        isValid =
-          isValid && deckOption.tag.some((tag) => cardTags?.some((cardTag) => tag === cardTag));
-      }
+        if (deckOption.tag) {
+          const cardTags = card.tags?.split(".").map((t) => t.trim().toLowerCase());
 
-      if (deckOption.type) {
-        isValid = isValid && deckOption.type.some((type) => card.type_code === type);
-      }
+          isValid =
+            isValid && deckOption.tag.some((tag) => cardTags?.some((cardTag) => tag === cardTag));
+        }
 
-      if (deckOption.uses) {
-        isValid =
-          isValid &&
-          deckOption.uses.some((use) => card.text?.toLowerCase().includes(use.toLowerCase()));
-      }
+        if (deckOption.type) {
+          isValid = isValid && deckOption.type.some((type) => card.type_code === type);
+        }
 
-      //TODO: Add logic for the not field in deck options
+        if (deckOption.uses) {
+          isValid =
+            isValid &&
+            deckOption.uses.some((use) => card.text?.toLowerCase().includes(use.toLowerCase()));
+        }
 
-      return isValid;
-    });
+        if (isValid && deckOption.not) {
+          isRestricted = true;
+        }
+
+        return isValid;
+      }) && !isRestricted
+    );
   });
 }
 
