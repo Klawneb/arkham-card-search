@@ -6,6 +6,7 @@ import { useHotkeys } from "@mantine/hooks";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import GlowingEdgeDiv from "./GlowingEdgeDiv";
+import FlipCard from "./FlipCard";
 
 interface CardModalProps {
   opened: boolean;
@@ -111,12 +112,19 @@ const CardModal = ({ onClose, opened, card, setModalCard, cards }: CardModalProp
                 <div className="grid grid-cols-[500px,auto,500px] h-[50vh]">
                   <div onClick={(e) => onBackgroundClicked(e, onClose)}></div>
                   <AspectRatio ratio={card?.type_name === TypeName.Investigator ? 7 / 5 : 5 / 7}>
-                    <Image
-                      src={`https://arkhamdb.com${card?.imagesrc}`}
-                      alt={`${card?.name} card art`}
-                      className="h-full object-contain"
-                      fallbackSrc="https://hallofarkham.com/wp-content/uploads/2020/07/arkham2.png"
-                    />
+                    {card?.type_name === TypeName.Investigator ? (
+                      <FlipCard
+                        frontImage={`https://arkhamdb.com${card?.imagesrc}`}
+                        backImage={`https://arkhamdb.com${card?.backimagesrc}`}
+                      />
+                    ) : (
+                      <Image
+                        src={`https://arkhamdb.com${card?.imagesrc}`}
+                        alt={`${card?.name} card art`}
+                        className="h-full object-contain"
+                        fallbackSrc="https://hallofarkham.com/wp-content/uploads/2020/07/arkham2.png"
+                      />
+                    )}
                   </AspectRatio>
                   <div
                     className="flex flex-col justify-between p-10 overflow-auto"

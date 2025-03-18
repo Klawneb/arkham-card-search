@@ -192,7 +192,7 @@ export enum Faction {
 
 export const FactionColors: Record<Faction, string> = {
   [Faction.Guardian]: "#27437A",
-  [Faction.Seeker]: "#D6A538",
+  [Faction.Seeker]: "#C57D34",
   [Faction.Rogue]: "#107D46",
   [Faction.Mystic]: "#573E78",
   [Faction.Survivor]: "#A62A2A",
