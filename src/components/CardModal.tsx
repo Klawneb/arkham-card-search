@@ -1,12 +1,13 @@
 import { MantineTransition, Modal, Image, AspectRatio } from "@mantine/core";
-import { Card, TypeName } from "../types/api";
+import { Card, Type, TypeName } from "../types/api";
 import parseHTML from "html-react-parser";
 import { parseCardText } from "../lib/parsers";
 import { useHotkeys } from "@mantine/hooks";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import GlowingEdgeDiv from "./GlowingEdgeDiv";
 import FlipCard from "./FlipCard";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface CardModalProps {
   opened: boolean;
@@ -77,81 +78,139 @@ const CardModal = ({ onClose, opened, card, setModalCard, cards }: CardModalProp
     setModalCard(cards[(currentCardIndex - 1 + cards.length) % cards.length]);
   }
 
+  const isInvestigator = card?.type_code === Type.Investigator;
+
   return (
-    <Modal.Root
+    <Modal
       opened={opened}
       onClose={onClose}
-      closeOnClickOutside={true}
-      centered
-      size={"auto"}
-      className="container"
-      transitionProps={{ transition: enterTransition }}
-      classNames={{
-        content: "bg-transparent",
-      }}
+      fullScreen
+      withCloseButton={false}
+      overlayProps={{ blur: 5, backgroundOpacity: 0.9 }}
+      classNames={{ body: "h-full p-0", content: "bg-transparent" }}
     >
-      <Modal.Overlay backgroundOpacity={0.9} blur={5}>
-        <GlowingEdgeDiv leftOnClick={moveLeft} rightOnClick={moveRight} />
-        <div className="opacity-50 absolute bottom-0 left-1/2 transform -translate-x-1/2 mb-4">
-          <p>Use the arrow keys to navigate</p>
-        </div>
-      </Modal.Overlay>
-      <Modal.Content>
-        <Modal.Body>
-          <div className={`overflow-hidden`}>
-            <AnimatePresence initial={false} custom={direction} mode="wait">
-              <motion.div
-                key={cards[currentCardIndex]?.code}
-                custom={direction}
-                variants={carouselVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={carouselTransition}
-              >
-                <div className="grid grid-cols-[500px,auto,500px] h-[50vh]">
-                  <div onClick={(e) => onBackgroundClicked(e, onClose)}></div>
-                  <AspectRatio ratio={card?.type_name === TypeName.Investigator ? 7 / 5 : 5 / 7}>
-                    {card?.type_name === TypeName.Investigator ? (
-                      <FlipCard
-                        frontImage={`https://arkhamdb.com${card?.imagesrc}`}
-                        backImage={`https://arkhamdb.com${card?.backimagesrc}`}
-                      />
-                    ) : (
-                      <Image
-                        src={`https://arkhamdb.com${card?.imagesrc}`}
-                        alt={`${card?.name} card art`}
-                        className="h-full object-contain"
-                        fallbackSrc="https://hallofarkham.com/wp-content/uploads/2020/07/arkham2.png"
-                      />
-                    )}
-                  </AspectRatio>
-                  <div
-                    className="flex flex-col justify-between p-10 overflow-auto"
-                    onClick={(e) => onBackgroundClicked(e, onClose)}
-                  >
-                    <div>
-                      <h2 className="text-center text-5xl">{card?.name}</h2>
-                      <p className="text-center font-bold text-2xl">{card?.type_name}</p>
-                    </div>
-                    <div>
-                      <p className="text-center text-2xl font-bold">{card?.traits}</p>
-                      <p className="text-center text-2xl pt-8">
-                        {card?.text ? parseHTML(parseCardText(card.text)) : ""}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-center italic">{card?.flavor}</p>
-                      <p className="text-center font-bold">{card?.pack_name}</p>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </Modal.Body>
-      </Modal.Content>
-    </Modal.Root>
+      <p className="italic opacity-40 bottom-5 w-full text-center absolute">
+        Use the arrow keys to change cards
+      </p>
+      <div className=" h-full flex overflow-hidden">
+        <HoverGradient direction="right" className="w-40 cursor-pointer" onClick={moveLeft} />
+        <AnimatePresence mode="wait" custom={direction}>
+          <motion.div
+            key={card?.code}
+            custom={direction}
+            variants={carouselVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={carouselTransition}
+            className="flex-grow flex justify-center"
+          >
+            <div className="flex-1 px-10" onClick={(e) => onBackgroundClicked(e, onClose)}></div>
+            <div
+              className="flex flex-col justify-center items-center h-full"
+              onClick={(e) => onBackgroundClicked(e, onClose)}
+            >
+              <AspectRatio ratio={isInvestigator ? 7 / 5 : 5 / 7} w={isInvestigator ? 800 : 500}>
+                {isInvestigator ? (
+                  <FlipCard
+                    backImage={`https://arkhamdb.com${card?.backimagesrc}`}
+                    frontImage={`https://arkhamdb.com${card?.imagesrc}`}
+                  />
+                ) : (
+                  <Image
+                    src={`https://arkhamdb.com${card?.imagesrc}`}
+                    alt={`${card?.name} card art`}
+                    className="object-contain rounded-3xl"
+                    fallbackSrc="https://hallofarkham.com/wp-content/uploads/2020/07/arkham2.png"
+                  />
+                )}
+              </AspectRatio>
+            </div>
+            <div
+              className="flex-1 flex flex-col justify-center px-10"
+              onClick={(e) => onBackgroundClicked(e, onClose)}
+            >
+              <div>
+                <h2 className="text-center text-5xl">{card?.name}</h2>
+                <p className="text-center font-bold text-2xl pt-5">{card?.type_name}</p>
+              </div>
+              <div className="pt-20">
+                <p className="text-center text-2xl font-bold">{card?.traits}</p>
+                <p className="text-center text-2xl pt-5">
+                  {card?.text ? parseHTML(parseCardText(card.text)) : ""}
+                </p>
+              </div>
+              <div className="pt-20">
+                <p className="text-center italic">{card?.flavor}</p>
+                <p className="text-center font-bold pt-5">{card?.pack_name}</p>
+              </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+        <HoverGradient direction="left" className="w-40 cursor-pointer" onClick={moveRight} />
+      </div>
+    </Modal>
+  );
+};
+
+interface HoverGradientProps {
+  onClick?: () => void;
+  direction: "left" | "right";
+  className?: string;
+}
+
+const HoverGradient: React.FC<HoverGradientProps> = ({ onClick, direction, className = "" }) => {
+  const [mousePosition, setMousePosition] = useState<number | null>(null);
+
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const percentage =
+        direction === "left" ? (x / rect.width) * 100 : ((rect.width - x) / rect.width) * 100;
+
+      setMousePosition(Math.max(0, Math.min(100, percentage)));
+    },
+    [direction]
+  );
+
+  const handleMouseLeave = useCallback(() => {
+    setMousePosition(null);
+  }, []);
+
+  const gradientStyle = {
+    background:
+      mousePosition === null
+        ? "transparent"
+        : `linear-gradient(to ${direction}, 
+        rgba(255,255,255,${(mousePosition / 100) * 0.3}) 0%,
+        transparent 100%)`,
+  };
+
+  const iconStyle = {
+    opacity: mousePosition === null ? 0.1 : mousePosition / 100,
+    transform:
+      mousePosition === null
+        ? "translateX(0)"
+        : `translateX(${direction === "left" ? -(mousePosition / 5) : mousePosition / 5}px)`,
+  };
+
+  return (
+    <div
+      className={`h-full transition-all duration-200 relative ${className}`}
+      style={gradientStyle}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onClick={onClick}
+    >
+      <div className="absolute top-1/2 -translate-y-1/2" style={iconStyle}>
+        {direction === "right" ? (
+          <ChevronLeft className="w-16 h-16 text-white" />
+        ) : (
+          <ChevronRight className="w-16 h-16 text-white" />
+        )}
+      </div>
+    </div>
   );
 };
 
