@@ -1,5 +1,4 @@
 import { Card, Faction, Type } from "../types/api";
-import * as fuzzysort from "fuzzysort";
 import { create } from "zustand/react";
 
 interface FilterState {
@@ -49,15 +48,16 @@ export const useFilterStore = create<FilterState>((set) => ({
 }));
 
 function textFilter(cards: Card[], filter: FilterState) {
-  const results = fuzzysort.go(filter.textFilter, cards, {
-    keys: filter.filterTitlesOnly ? ["name"] : ["name", "text"],
-    all: true,
-    threshold: filter.showAllResults ? 0 : 0.25,
+  if (filter.textFilter === "") {
+    return cards;
+  }
+
+  return cards.filter((card) => {
+    const searchText = filter.textFilter.toLowerCase();
+    const titleMatch = card.name.toLowerCase().includes(searchText);
+    const textMatch = !filter.filterTitlesOnly && card.text?.toLowerCase().includes(searchText);
+    return titleMatch || textMatch;
   });
-  return results
-    .map((key) => key)
-    .sort((a, b) => b.score - a.score)
-    .map((key) => key.obj);
 }
 
 function traitFilter(cards: Card[], filter: FilterState) {
