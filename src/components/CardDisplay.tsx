@@ -4,15 +4,36 @@ import { filterCards, useFilterStore } from "../lib/filter.ts";
 import { useDisclosure } from "@mantine/hooks";
 import CardModal from "./CardModal.tsx";
 import CardGrid from "./CardGrid.tsx";
+import { useSettingsStore } from "../lib/settings.ts";
 
 interface CardDisplayProps {
   cards: Card[];
+}
+
+function getCardWidth(settingsSize: number) {
+  switch (settingsSize) {
+    case 0:
+      return 100;
+    case 25:
+      return 150;
+    case 50:
+      return 200;
+    case 75:
+      return 250;
+    case 100:
+      return 350;
+    default:
+      return 200;
+  }
 }
 
 const CardDisplay = ({ cards }: CardDisplayProps) => {
   const [opened, handlers] = useDisclosure(false);
   const [modalCard, setModalCard] = useState<Card | null>(null);
   const filterStore = useFilterStore();
+  const settingsStore = useSettingsStore();
+
+  const cardWidth = getCardWidth(settingsStore.cardSize);
 
   if (cards.length === 0) {
     return (
@@ -27,8 +48,8 @@ const CardDisplay = ({ cards }: CardDisplayProps) => {
   return (
     <div className="flex-grow">
       <CardGrid
-        cardHeight={280}
-        cardWidth={200}
+        cardHeight={cardWidth * 1.4}
+        cardWidth={cardWidth}
         cards={filteredCards}
         openModal={handlers.open}
         setModalCard={setModalCard}

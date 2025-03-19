@@ -1,3 +1,5 @@
+import { useMantineColorScheme } from "@mantine/core";
+
 export function darkenHexColor(hex: string, percent = 50) {
   // Ensure the hex code is valid and remove the "#" if present
   hex = hex.replace(/^#/, "");
@@ -33,3 +35,8 @@ export function darkenHexColor(hex: string, percent = 50) {
     .toString(16)
     .padStart(2, "0")}`;
 }
+
+export const useBackgroundColor = (darkColor: string, lightColor: string) => {
+  const theme = useMantineColorScheme().colorScheme;
+  return theme === "dark" ? darkColor : lightColor;
+};
