@@ -5,12 +5,10 @@ import { Image } from "@mantine/core";
 interface FlippableCardProps {
   frontImage: string;
   backImage: string;
+  className?: string;
 }
 
-const FlippableCard: React.FC<FlippableCardProps> = ({
-  frontImage,
-  backImage
-}) => {
+const FlippableCard: React.FC<FlippableCardProps> = ({ frontImage, backImage, className = "" }) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
   const handleFlip = () => {
@@ -18,7 +16,10 @@ const FlippableCard: React.FC<FlippableCardProps> = ({
   };
 
   return (
-    <div className={`relative cursor-pointer perspective-1000 h-full w-full`} onClick={handleFlip}>
+    <div
+      className={`relative cursor-pointer perspective-1000 h-full w-full ${className}`}
+      onClick={handleFlip}
+    >
       <div className="relative w-full h-full transition-all duration-500 preserve-3d">
         <motion.div
           className="absolute w-full h-full backface-hidden rounded-lg shadow-lg"
@@ -67,7 +68,6 @@ const FlippableCard: React.FC<FlippableCardProps> = ({
           />
         </motion.div>
       </div>
-      <p>test teasdkaasdasdsad</p>
     </div>
   );
 };
