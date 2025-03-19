@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { FC, useState } from "react";
 import { motion } from "framer-motion";
 import { Image } from "@mantine/core";
 
@@ -8,7 +8,7 @@ interface FlippableCardProps {
   className?: string;
 }
 
-const FlippableCard: React.FC<FlippableCardProps> = ({ frontImage, backImage, className = "" }) => {
+const FlippableCard = ({ frontImage, backImage, className = "" }: FlippableCardProps) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
   const handleFlip = () => {

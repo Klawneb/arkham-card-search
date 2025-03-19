@@ -1,8 +1,8 @@
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { Card } from "../types/api";
-import React from "react";
 import CardItem from "./CardItem";
 import { useElementSize } from "@mantine/hooks";
+import { useRef } from "react";
 
 interface CardGridProps {
   cards: Card[];
@@ -12,20 +12,14 @@ interface CardGridProps {
   openModal: () => void;
 }
 
-function CardGrid({
-  cards,
-  cardHeight,
-  cardWidth,
-  setModalCard,
-  openModal,
-}: CardGridProps) {
-  const parentRef = React.useRef(null);
+function CardGrid({ cards, cardHeight, cardWidth, setModalCard, openModal }: CardGridProps) {
+  const parentRef = useRef(null);
   const { ref, width } = useElementSize();
 
-  const cardsPerRow = Math.max(1, Math.floor(width / (cardWidth)));
-  const emptySpace = width - (cardWidth * cardsPerRow);
-  const cardMarginX = Math.max((emptySpace / cardsPerRow) / 2, 4);
-  const cardMarginY = 12
+  const cardsPerRow = Math.max(1, Math.floor(width / cardWidth));
+  const emptySpace = width - cardWidth * cardsPerRow;
+  const cardMarginX = Math.max(emptySpace / cardsPerRow / 2, 4);
+  const cardMarginY = 12;
 
   const rowVirtualizer = useVirtualizer({
     count: width > 0 ? Math.ceil(cards.length / cardsPerRow) : 0,
@@ -64,7 +58,7 @@ function CardGrid({
                   )
                   .map((card) => {
                     return (
-                      <div key={card.code} style={{ margin: `0px ${cardMarginX}px`}}>
+                      <div key={card.code} style={{ margin: `0px ${cardMarginX}px` }}>
                         <CardItem
                           card={card}
                           height={cardHeight}
