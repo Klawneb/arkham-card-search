@@ -1,4 +1,4 @@
-import { Accordion, Divider } from "@mantine/core";
+import { Accordion, Button, Divider } from "@mantine/core";
 import TextFilter from "./Sidebar/TextFilter.tsx";
 import { ReactNode, useState } from "react";
 import FactionFilter from "./Sidebar/FactionFilter.tsx";
@@ -8,7 +8,7 @@ import TypeFilter from "./Sidebar/TypeFilter.tsx";
 import TraitFilter from "./Sidebar/TraitFilter.tsx";
 import { Card } from "../types/api.ts";
 import PackFilter from "./Sidebar/PackFilter.tsx";
-import InvestigatorFilter from "./InvestigatorFilter.tsx";
+import InvestigatorFilter from "./Sidebar/InvestigatorFilter.tsx";
 
 interface SidebarProps {
   cards: Card[];
