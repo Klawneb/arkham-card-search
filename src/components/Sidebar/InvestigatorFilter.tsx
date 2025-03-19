@@ -7,15 +7,15 @@ import {
   Modal,
   MantineTransition,
 } from "@mantine/core";
-import { Card, Faction, FactionColors, Type } from "../types/api";
-import { darkenHexColor } from "../lib/colors";
+import { Card, Faction, FactionColors, Type } from "../../types/api";
+import { darkenHexColor } from "../../lib/colors";
 import { useRef, useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
 import { X } from "lucide-react";
-import { parseCardText } from "../lib/parsers";
+import { parseCardText } from "../../lib/parsers";
 import parseHTML from "html-react-parser";
-import FlipCard from "./FlipCard";
-import { useFilterStore } from "../lib/filter";
+import FlipCard from "../FlipCard";
+import { useFilterStore } from "../../lib/filter";
 
 interface InvestigatorFilterProps {
   cards: Card[];
