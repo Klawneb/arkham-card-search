@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 import { FC, useState } from "react";
+=======
+import { useState } from "react";
+>>>>>>> Stashed changes
 import { motion } from "framer-motion";
 import { Image } from "@mantine/core";
 

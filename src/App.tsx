@@ -21,7 +21,7 @@ function App() {
 
   return (
     <div className="flex h-screen w-screen bg-stone-900">
-      <Sidebar cards={cardList}/>
+      <Sidebar cards={cardList} />
       <CardDisplay cards={cardList} />
     </div>
   );
