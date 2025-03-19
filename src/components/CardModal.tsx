@@ -1,11 +1,10 @@
-import { MantineTransition, Modal, Image, AspectRatio } from "@mantine/core";
-import { Card, Type, TypeName } from "../types/api";
+import { Modal, Image, AspectRatio } from "@mantine/core";
+import { Card, Type } from "../types/api";
 import parseHTML from "html-react-parser";
 import { parseCardText } from "../lib/parsers";
 import { useHotkeys } from "@mantine/hooks";
 import { useCallback, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import GlowingEdgeDiv from "./GlowingEdgeDiv";
 import FlipCard from "./FlipCard";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -16,12 +15,6 @@ interface CardModalProps {
   setModalCard: (card: Card) => void;
   cards: Card[];
 }
-
-const enterTransition: MantineTransition = {
-  in: { opacity: 1, scale: 1 },
-  out: { opacity: 0, scale: 0 },
-  transitionProperty: "opacity, scale",
-};
 
 const carouselVariants = {
   enter: (direction: number) => ({
