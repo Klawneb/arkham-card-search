@@ -29,7 +29,7 @@ function CardGrid({ cards, cardHeight, cardWidth, setModalCard, openModal }: Car
   });
 
   return (
-    <div ref={ref} className="w-full h-full">
+    <div ref={ref} className="w-full h-full p-2">
       <div ref={parentRef} className="w-full h-full overflow-auto">
         <div
           style={{
