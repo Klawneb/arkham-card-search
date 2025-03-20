@@ -81,6 +81,7 @@ const CardModal = ({ onClose, opened, card, setModalCard, cards }: CardModalProp
       withCloseButton={false}
       overlayProps={{ blur: 5, backgroundOpacity: 0.9 }}
       classNames={{ body: "h-full p-0", content: "bg-transparent" }}
+      className="text-stone-300"
     >
       <p className="italic opacity-40 bottom-5 w-full text-center absolute">
         Use the arrow keys to change cards
