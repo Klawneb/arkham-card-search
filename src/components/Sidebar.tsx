@@ -1,4 +1,4 @@
-import { Accordion, Button, Divider, Modal } from "@mantine/core";
+import { Accordion, Button, Divider } from "@mantine/core";
 import TextFilter from "./Sidebar/TextFilter.tsx";
 import { ReactNode, useState } from "react";
 import FactionFilter from "./Sidebar/FactionFilter.tsx";
