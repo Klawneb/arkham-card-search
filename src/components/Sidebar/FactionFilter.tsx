@@ -1,5 +1,4 @@
-import { Chip } from "@mantine/core";
-import { darkenHexColor } from "../../lib/colors";
+import { Chip, darken } from "@mantine/core";
 import { Faction, FactionColors } from "../../types/api";
 import { useFilterStore } from "../../lib/filter";
 
@@ -26,7 +25,7 @@ const FactionFilter = () => {
                     justifyContent: "center",
                     backgroundColor: filterStore.factionFilter.includes(faction as Faction)
                       ? color
-                      : darkenHexColor(color, 40),
+                      : darken(color, .5),
                     border: `2px solid ${color}`,
                   },
                 }}
