@@ -54,7 +54,7 @@ const Sidebar = ({ cards }: SidebarProps) => {
 
   return (
     <div className={`flex flex-col h-full w-80 ${bgColor} justify-between`}>
-      <div>
+      <div className="overflow-auto">
         <p className="text-center text-2xl">Card Filter</p>
         <Divider />
         <Accordion multiple styles={{ label: { padding: 6 } }} value={value} onChange={setValue}>
@@ -99,6 +99,7 @@ const Sidebar = ({ cards }: SidebarProps) => {
           </Button>
         </div>
       </div>
+
 
       <SettingsModal onClose={settingsHandlers.close} opened={settingsOpened} />
       <AboutModal onClose={aboutHandlers.close} opened={aboutOpened} />
