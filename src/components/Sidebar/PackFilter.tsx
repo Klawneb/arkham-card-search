@@ -116,6 +116,7 @@ const PackFilter = () => {
                     {getCyclePacks(packs.data, pack.cycle_position).map((pack, index) => {
                       return (
                         <div
+                          key={pack.code}
                           className={`flex items-center p-1 ${
                             index % 2 === 0 ? bgColor : ""
                           }`}
