@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import CardDisplay from "./components/CardDisplay.tsx";
 import Sidebar from "./components/Sidebar.tsx";
 import { Card } from "./types/api.ts";
+import { useBackgroundColor } from "./lib/colors.ts";
 
 async function fetchCards(): Promise<Card[]> {
   const response = await fetch("https://arkhamdb.com/api/public/cards/");
@@ -18,9 +19,10 @@ function App() {
   });
 
   const cardList = cards.data ?? [];
+  const bgColor = useBackgroundColor("bg-stone-900", "bg-stone-300");
 
   return (
-    <div className="flex h-screen w-screen bg-stone-900">
+    <div className={`flex h-screen w-screen ${bgColor}`}>
       <Sidebar cards={cardList} />
       <CardDisplay cards={cardList} />
     </div>
