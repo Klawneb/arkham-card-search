@@ -1,5 +1,5 @@
 import { Chip, darken, lighten, useMantineColorScheme } from "@mantine/core";
-import { darkenHexColor, useBackgroundColor } from "../../lib/colors";
+import { useBackgroundColor } from "../../lib/colors";
 import { Type } from "../../types/api";
 import { useFilterStore } from "../../lib/filter";
 
