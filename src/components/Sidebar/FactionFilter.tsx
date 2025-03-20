@@ -1,9 +1,10 @@
-import { Chip, darken } from "@mantine/core";
+import { Chip, darken, lighten, useMantineColorScheme } from "@mantine/core";
 import { Faction, FactionColors } from "../../types/api";
 import { useFilterStore } from "../../lib/filter";
 
 const FactionFilter = () => {
   const filterStore = useFilterStore();
+  const theme = useMantineColorScheme();
 
   return (
     <div className="flex flex-col p-2">
@@ -25,7 +26,9 @@ const FactionFilter = () => {
                     justifyContent: "center",
                     backgroundColor: filterStore.factionFilter.includes(faction as Faction)
                       ? color
-                      : darken(color, .5),
+                      : theme.colorScheme === "dark"
+                      ? darken(color, 0.5)
+                      : lighten(color, 0.5),
                     border: `2px solid ${color}`,
                   },
                 }}
