@@ -6,9 +6,9 @@ import {
   Image,
   Modal,
   MantineTransition,
+  darken,
 } from "@mantine/core";
 import { Card, Faction, FactionColors, Type } from "../../types/api";
-import { darkenHexColor } from "../../lib/colors";
 import { useRef, useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
 import { X } from "lucide-react";
@@ -121,7 +121,7 @@ const InvestigatorFilter = ({ cards }: InvestigatorFilterProps) => {
               <Combobox.Group
                 key={faction}
                 label={faction}
-                style={{ backgroundColor: darkenHexColor(FactionColors[factionEnum], 20) }}
+                style={{ backgroundColor: darken(FactionColors[factionEnum], 0.2) }}
                 className="text-white"
               >
                 {investigators.map((investigator) => {
