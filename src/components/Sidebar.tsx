@@ -14,6 +14,7 @@ import { Info, Settings, X } from "lucide-react";
 import { useDisclosure } from "@mantine/hooks";
 import SettingsModal from "./Sidebar/SettingsModal.tsx";
 import { useBackgroundColor } from "../lib/colors.ts";
+import AboutModal from "./Sidebar/AboutModal.tsx";
 
 interface SidebarProps {
   cards: Card[];
@@ -90,7 +91,7 @@ const Sidebar = ({ cards }: SidebarProps) => {
         </Button>
         <Divider />
         <div className="flex gap-2 justify-between p-2">
-          <Button leftSection={<Info />} className="flex-1">
+          <Button leftSection={<Info />} className="flex-1" onClick={aboutHandlers.open}>
             About
           </Button>
           <Button leftSection={<Settings />} className="flex-1" onClick={settingsHandlers.open}>
@@ -100,6 +101,7 @@ const Sidebar = ({ cards }: SidebarProps) => {
       </div>
 
       <SettingsModal onClose={settingsHandlers.close} opened={settingsOpened} />
+      <AboutModal onClose={aboutHandlers.close} opened={aboutOpened} />
     </div>
   );
 };
