@@ -19,7 +19,7 @@ const CardItem = ({ card, openModal, setModalCard, width, height }: CardItemProp
     <div className="flex justify-center cursor-pointer" onClick={handleClick}>
       <Image
         src={`https://arkhamdb.com${card.imagesrc}`}
-        className="h-full object-cover object-left"
+        className="h-full object-cover object-left rounded-lg"
         alt={`${card.name} card art`}
         fallbackSrc="https://hallofarkham.com/wp-content/uploads/2020/07/arkham2.png"
         w={width}
