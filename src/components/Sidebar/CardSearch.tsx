@@ -38,7 +38,7 @@ const AccordionItem = ({ name, children, icon }: AccordionItemProps) => {
           {name}
         </Text>
       </Accordion.Control>
-      <Accordion.Panel styles={{ content: { padding: "0" } }}>{children}</Accordion.Panel>
+      <Accordion.Panel classNames={{ content: "p-0"}}>{children}</Accordion.Panel>
     </Accordion.Item>
   );
 };
