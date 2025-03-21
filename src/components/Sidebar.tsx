@@ -1,12 +1,14 @@
-import { Button, Divider, Text } from "@mantine/core";
+import { Button, Divider, SegmentedControl, Text } from "@mantine/core";
 import { Card } from "../types/api.ts";
 import { useFilterStore } from "../lib/filter.ts";
-import { Info, Settings, X } from "lucide-react";
+import { GalleryHorizontalEndIcon, Info, SearchIcon, Settings, X } from "lucide-react";
 import { useDisclosure } from "@mantine/hooks";
 import SettingsModal from "./Sidebar/SettingsModal.tsx";
 import { useBackgroundColor } from "../lib/colors.ts";
 import AboutModal from "./Sidebar/AboutModal.tsx";
 import CardSearch from "./Sidebar/CardSearch.tsx";
+import { useState } from "react";
+import DeckList from "./Sidebar/DeckList.tsx";
 
 interface SidebarProps {
   cards: Card[];
@@ -17,6 +19,7 @@ const Sidebar = ({ cards }: SidebarProps) => {
   const [settingsOpened, settingsHandlers] = useDisclosure();
   const [aboutOpened, aboutHandlers] = useDisclosure();
   const bgColor = useBackgroundColor("bg-stone-800", "bg-stone-100");
+  const [sidebarMenu, setSidebarMenu] = useState("search");
 
   function clearFilters() {
     filterStore.setTextFilter("");
@@ -33,13 +36,38 @@ const Sidebar = ({ cards }: SidebarProps) => {
     <div className={`flex flex-col h-full w-80 ${bgColor} justify-between`}>
       <div>
         <Text fw={500} className="text-3xl text-center p-1">
-          Arkham Card Search
+          Arkham Card Tools
         </Text>
         <Divider />
-        <CardSearch cards={cards} />
+        {sidebarMenu === "search" ? <CardSearch cards={cards} /> : <DeckList />}
       </div>
       <div className="flex flex-col justify-center p-2">
-        
+        <SegmentedControl
+          size="lg"
+          value={sidebarMenu}
+          onChange={setSidebarMenu}
+          data={[
+            {
+              label: (
+                <div className="flex gap-2">
+                  <SearchIcon />
+                  <span>Card Search</span>
+                </div>
+              ),
+              value: "search",
+            },
+            {
+              label: (
+                <div className="flex gap-2">
+                  <GalleryHorizontalEndIcon />
+                  <span>Deck List</span>
+                </div>
+              ),
+              value: "deck",
+            },
+          ]}
+        />
+        <Divider className="mt-2" />
         <Button onClick={clearFilters} color="red" size="lg" className="m-2" leftSection={<X />}>
           Clear Filters
         </Button>
