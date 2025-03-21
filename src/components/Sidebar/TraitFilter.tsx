@@ -1,7 +1,7 @@
 import { useBackgroundColor } from "../../lib/colors";
 import { useFilterStore } from "../../lib/filter";
 import { Card } from "../../types/api";
-import { Autocomplete } from "@mantine/core";
+import { Autocomplete, Text } from "@mantine/core";
 import { useState } from "react";
 
 interface TraitFilterProps {
@@ -83,10 +83,10 @@ const TraitFilter = ({ cards }: TraitFilterProps) => {
           return (
             <div
               onClick={() => removeSelectedTrait(trait)}
-              className={`${bgColor} rounded-3xl border-stone-500 border-2 transition-all p-2 text-sm flex items-center`}
+              className={`${bgColor} rounded-3xl border-stone-500 border-2 transition-all px-1 py-0.5 text-sm flex items-center`}
             >
-              <p className="flex-1 text-center block truncate">{trait}</p>
-              <button className="w-5 hover:scale-125 stroke-stone-400 hover:stroke-red-500 transition-all">
+              <Text className="flex-1 text-center block truncate font-semibold">{trait}</Text>
+              <button className="w-5 absolute hover:scale-125 stroke-stone-400 hover:stroke-red-500 transition-all">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
