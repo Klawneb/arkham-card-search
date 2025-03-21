@@ -1,28 +1,7 @@
-import { Accordion, Button, Divider, SegmentedControl, Text } from "@mantine/core";
-import TextFilter from "./Sidebar/TextFilter.tsx";
-import { ReactNode, useState } from "react";
-import FactionFilter from "./Sidebar/FactionFilter.tsx";
-import XPFilter from "./Sidebar/XPFilter.tsx";
-import ResourceFilter from "./Sidebar/ResourceFilter.tsx";
-import TypeFilter from "./Sidebar/TypeFilter.tsx";
-import TraitFilter from "./Sidebar/TraitFilter.tsx";
+import { Button, Divider, SegmentedControl, Text } from "@mantine/core";
 import { Card } from "../types/api.ts";
-import PackFilter from "./Sidebar/PackFilter.tsx";
-import InvestigatorFilter from "./Sidebar/InvestigatorFilter.tsx";
 import { useFilterStore } from "../lib/filter.ts";
-import {
-  BookOpen,
-  FileSearch,
-  GalleryHorizontalEndIcon,
-  Info,
-  MapIcon,
-  PackageIcon,
-  SearchIcon,
-  Settings,
-  ShieldUser,
-  TagsIcon,
-  X,
-} from "lucide-react";
+import { GalleryHorizontalEndIcon, Info, SearchIcon, Settings, X } from "lucide-react";
 import { useDisclosure } from "@mantine/hooks";
 import SettingsModal from "./Sidebar/SettingsModal.tsx";
 import { useBackgroundColor } from "../lib/colors.ts";

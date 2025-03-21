@@ -1,4 +1,4 @@
-import { Accordion, Divider, Text } from "@mantine/core";
+import { Accordion, Text } from "@mantine/core";
 import { ReactNode, useState } from "react";
 import TextFilter from "./TextFilter";
 import PackFilter from "./PackFilter";
