@@ -1,7 +1,7 @@
-import { Button, Divider, SegmentedControl, Text } from "@mantine/core";
+import { Button, Divider, Text } from "@mantine/core";
 import { Card } from "../types/api.ts";
 import { useFilterStore } from "../lib/filter.ts";
-import { GalleryHorizontalEndIcon, Info, SearchIcon, Settings, X } from "lucide-react";
+import { Info, Settings, X } from "lucide-react";
 import { useDisclosure } from "@mantine/hooks";
 import SettingsModal from "./Sidebar/SettingsModal.tsx";
 import { useBackgroundColor } from "../lib/colors.ts";
@@ -39,30 +39,7 @@ const Sidebar = ({ cards }: SidebarProps) => {
         <CardSearch cards={cards} />
       </div>
       <div className="flex flex-col justify-center p-2">
-        <SegmentedControl
-          size="lg"
-          data={[
-            {
-              label: (
-                <div className="flex gap-2">
-                  <SearchIcon />
-                  <span>Card Search</span>
-                </div>
-              ),
-              value: "search",
-            },
-            {
-              label: (
-                <div className="flex gap-2">
-                  <GalleryHorizontalEndIcon />
-                  <span>Deck List</span>
-                </div>
-              ),
-              value: "deck",
-            },
-          ]}
-        />
-        <Divider className="mt-2" />
+        
         <Button onClick={clearFilters} color="red" size="lg" className="m-2" leftSection={<X />}>
           Clear Filters
         </Button>
