@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { AspectRatio, Image, Modal, MantineTransition } from "@mantine/core";
 import FlipCard from "../FlipCard";
 import { useFilterStore } from "../../lib/filter";
@@ -7,10 +7,7 @@ import { Card } from "../../types/api";
 import parseHTML from "html-react-parser";
 import { parseCardText } from "../../lib/parsers";
 import { useDisclosure } from "@mantine/hooks";
-
-interface InvestigatorFilterProps {
-  cards: Card[];
-}
+import { CardContext } from "../../App";
 
 const enterTransition: MantineTransition = {
   in: { opacity: 1, scale: 1 },
@@ -24,9 +21,10 @@ function onBackgroundClicked(e: React.MouseEvent<HTMLDivElement>, closeFunction:
   }
 }
 
-const InvestigatorFilter = ({ cards }: InvestigatorFilterProps) => {
+const InvestigatorFilter = () => {
   const [opened, handlers] = useDisclosure();
   const filterStore = useFilterStore();
+  const cards = useContext(CardContext);
 
   return (
     <div className="m-2 flex flex-col">

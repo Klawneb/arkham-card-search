@@ -3,11 +3,8 @@ import { useBackgroundColor } from "../../lib/colors";
 import { useFilterStore } from "../../lib/filter";
 import { Card } from "../../types/api";
 import { Autocomplete, Text } from "@mantine/core";
-import { useState } from "react";
-
-interface TraitFilterProps {
-  cards: Card[];
-}
+import { useContext, useState } from "react";
+import { CardContext } from "../../App";
 
 function getTraitList(cards: Card[]): string[] {
   const traitMap = new Map<string, number>();
@@ -34,8 +31,9 @@ function getTraitList(cards: Card[]): string[] {
     .map((pair) => pair[0]);
 }
 
-const TraitFilter = ({ cards }: TraitFilterProps) => {
+const TraitFilter = () => {
   const filterStore = useFilterStore();
+  const cards = useContext(CardContext);
   const traits = getTraitList(cards);
   const [searchFilter, setSearchFilter] = useState("");
 

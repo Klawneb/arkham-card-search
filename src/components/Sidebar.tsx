@@ -1,5 +1,4 @@
 import { Button, Divider, SegmentedControl, Text } from "@mantine/core";
-import { Card } from "../types/api.ts";
 import { useFilterStore } from "../lib/filter.ts";
 import { GalleryHorizontalEndIcon, Info, SearchIcon, Settings, X } from "lucide-react";
 import { useDisclosure } from "@mantine/hooks";
@@ -10,11 +9,7 @@ import CardSearch from "./Sidebar/CardSearch.tsx";
 import { useState } from "react";
 import DeckList from "./Sidebar/DeckList.tsx";
 
-interface SidebarProps {
-  cards: Card[];
-}
-
-const Sidebar = ({ cards }: SidebarProps) => {
+const Sidebar = () => {
   const filterStore = useFilterStore();
   const [settingsOpened, settingsHandlers] = useDisclosure();
   const [aboutOpened, aboutHandlers] = useDisclosure();
@@ -39,7 +34,7 @@ const Sidebar = ({ cards }: SidebarProps) => {
           Arkham Card Tools
         </Text>
         <Divider />
-        {sidebarMenu === "search" ? <CardSearch cards={cards} /> : <DeckList />}
+        {sidebarMenu === "search" ? <CardSearch /> : <DeckList />}
       </div>
       <div className="flex flex-col justify-center p-2 gap-1">
         {sidebarMenu === "search" && (

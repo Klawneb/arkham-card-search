@@ -1,14 +1,14 @@
 import { Button, Divider, Popover, Text, TextInput } from "@mantine/core";
 import { useInputState } from "@mantine/hooks";
 import { GalleryHorizontalEndIcon, PlusIcon, SearchIcon } from "lucide-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import DeckItem from "./DeckItem";
 import { DndContext, closestCenter, DragEndEvent } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
 import { Deck } from "../../types/deck";
-import InvestigatorCombobox from "./InvestigatorComboBox";
+import NewDeckItem from "./NewDeckItem";
+import { v4 as uuidv4 } from "uuid";
 
-// Initial decks array (could be fetched or come from props)
 const initialDecks: Deck[] = [
   { cards: [], name: "Deck 1", id: "1" },
   { cards: [], name: "Deck 2", id: "2" },
@@ -18,6 +18,7 @@ const initialDecks: Deck[] = [
 const DeckList = () => {
   const [deckFilter, setDeckFilter] = useInputState("");
   const [deckList, setDeckList] = useState(initialDecks);
+  const [isNewDeckOpen, setisNewDeckOpen] = useState(false);
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
@@ -28,6 +29,16 @@ const DeckList = () => {
     }
   };
 
+  function handleDeckAdd(name: string) {
+    const newDeck: Deck = {
+      cards: [],
+      id: uuidv4(),
+      name,
+    };
+
+    setDeckList((prev) => [newDeck, ...prev]);
+  }
+
   return (
     <div className="flex flex-col">
       <div className="flex flex-col gap-2">
@@ -36,44 +47,15 @@ const DeckList = () => {
             <GalleryHorizontalEndIcon className="h-7 w-7" />
             <Text className="text-2xl font-semibold">Deck List</Text>
           </div>
-          <Popover position="right-start" withOverlay>
-            <Popover.Target>
-              <Button
-                leftSection={<PlusIcon size={18} />}
-                color="stone.6"
-                size="sm"
-                variant="filled"
-              >
-                New
-              </Button>
-            </Popover.Target>
-            <Popover.Dropdown className="bg-stone-800">
-              <div className="flex flex-col gap-2 p-4">
-                <Text size="sm" c="dimmed">
-                  Deck Name
-                </Text>
-                <TextInput
-                  placeholder="Enter deck name"
-                  radius="md"
-                  size="sm"
-                  classNames={{
-                    input: "bg-stone-800 text-stone-100 border-stone-600",
-                  }}
-                />
-                <Text size="sm" c="dimmed">
-                  Investigator
-                </Text>
-                <div className="flex gap-2 justify-between">
-                  <Button color="red" size="sm" variant="filled" className="w-20">
-                    Cancel
-                  </Button>
-                  <Button color="stone.6" size="sm" variant="filled" className="w-32">
-                    Create Deck
-                  </Button>
-                </div>
-              </div>
-            </Popover.Dropdown>
-          </Popover>
+          <Button
+            leftSection={<PlusIcon size={18} />}
+            onClick={() => setisNewDeckOpen(true)}
+            color="stone.6"
+            size="sm"
+            variant="filled"
+          >
+            New
+          </Button>
         </div>
         <TextInput
           className="mx-4"
@@ -95,7 +77,9 @@ const DeckList = () => {
           strategy={verticalListSortingStrategy}
         >
           <div className="h-80rounded-lg">
-            <Text c="dimmed" className="text-sm font-semibold p-1">
+            {isNewDeckOpen && <NewDeckItem onAdd={handleDeckAdd} setIsOpen={setisNewDeckOpen} />}
+
+            <Text c="dimmed" className="text-md font-semibold p-1 text-center">
               YOUR DECKS
             </Text>
             <Divider />

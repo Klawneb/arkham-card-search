@@ -16,7 +16,6 @@ import {
   ShieldUser,
   TagsIcon,
 } from "lucide-react";
-import { Card } from "../../types/api";
 import InvestigatorFilter from "./InvestigatorFilter";
 import { useBackgroundColor } from "../../lib/colors";
 
@@ -26,17 +25,10 @@ interface AccordionItemProps {
   icon?: ReactNode;
 }
 
-interface CardSearchProps {
-  cards: Card[];
-}
-
 const AccordionItem = ({ name, children, icon }: AccordionItemProps) => {
   return (
     <Accordion.Item key={name} value={name}>
-      <Accordion.Control
-        icon={icon}
-        className="bg-stone-800 hover:bg-stone-700 transition-colors"
-      >
+      <Accordion.Control icon={icon} className="bg-stone-800 hover:bg-stone-700 transition-colors">
         <Text fw={500} size="lg" className="text-stone-300">
           {name}
         </Text>
@@ -48,13 +40,13 @@ const AccordionItem = ({ name, children, icon }: AccordionItemProps) => {
   );
 };
 
-const CardSearch = ({ cards }: CardSearchProps) => {
+const CardSearch = () => {
   const [value, setValue] = useState<string[]>(["Search"]);
   const iconColor = useBackgroundColor("fill-stone-300", "fill-stone-800");
 
   return (
     <div className=" bg-stone-800 shadow-lg overflow-auto">
-      <Accordion multiple value={value} onChange={setValue} classNames={{ label: "p-1"}}>
+      <Accordion multiple value={value} onChange={setValue} classNames={{ label: "p-1" }}>
         <AccordionItem name={"Search"} icon={<SearchIcon className="w-7 h-7" />}>
           <TextFilter />
         </AccordionItem>
@@ -74,7 +66,7 @@ const CardSearch = ({ cards }: CardSearchProps) => {
           <TypeFilter />
         </AccordionItem>
         <AccordionItem name={"Traits"} icon={<TagsIcon className="w-7 h-7" />}>
-          <TraitFilter cards={cards} />
+          <TraitFilter />
         </AccordionItem>
         <AccordionItem
           name={"Investigator"}
@@ -94,7 +86,7 @@ const CardSearch = ({ cards }: CardSearchProps) => {
             </svg>
           }
         >
-          <InvestigatorFilter cards={cards} />
+          <InvestigatorFilter />
         </AccordionItem>
       </Accordion>
     </div>

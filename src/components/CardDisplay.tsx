@@ -1,14 +1,11 @@
 ﻿import { Card } from "../types/api";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { filterCards, useFilterStore } from "../lib/filter.ts";
 import { useDisclosure } from "@mantine/hooks";
 import CardModal from "./CardModal.tsx";
 import CardGrid from "./CardGrid.tsx";
 import { useSettingsStore } from "../lib/settings.ts";
-
-interface CardDisplayProps {
-  cards: Card[];
-}
+import { CardContext } from "../App.tsx";
 
 function getCardWidth(settingsSize: number) {
   switch (settingsSize) {
@@ -27,11 +24,12 @@ function getCardWidth(settingsSize: number) {
   }
 }
 
-const CardDisplay = ({ cards }: CardDisplayProps) => {
+const CardDisplay = () => {
   const [opened, handlers] = useDisclosure(false);
   const [modalCard, setModalCard] = useState<Card | null>(null);
   const filterStore = useFilterStore();
   const settingsStore = useSettingsStore();
+  const cards = useContext(CardContext);
 
   const cardWidth = getCardWidth(settingsStore.cardSize);
 

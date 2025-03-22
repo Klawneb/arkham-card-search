@@ -3,6 +3,7 @@ import CardDisplay from "./components/CardDisplay.tsx";
 import Sidebar from "./components/Sidebar.tsx";
 import { Card } from "./types/api.ts";
 import { useBackgroundColor } from "./lib/colors.ts";
+import { createContext } from "react";
 
 async function fetchCards(): Promise<Card[]> {
   const response = await fetch("https://arkhamdb.com/api/public/cards/");
@@ -11,6 +12,8 @@ async function fetchCards(): Promise<Card[]> {
   }
   return response.json();
 }
+
+export const CardContext = createContext<Card[]>([]);
 
 function App() {
   const cards = useQuery({
@@ -23,8 +26,10 @@ function App() {
 
   return (
     <div className={`flex h-screen w-screen ${bgColor}`}>
-      <Sidebar cards={cardList} />
-      <CardDisplay cards={cardList} />
+      <CardContext.Provider value={cardList}>
+        <Sidebar/>
+        <CardDisplay/>
+      </CardContext.Provider>
     </div>
   );
 }
