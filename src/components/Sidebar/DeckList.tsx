@@ -9,24 +9,20 @@ import { Deck } from "../../types/deck";
 import NewDeckItem from "./NewDeckItem";
 import { v4 as uuidv4 } from "uuid";
 import { motion, AnimatePresence } from "framer-motion";
-
-const initialDecks: Deck[] = [
-  { cards: [], name: "Deck 1", id: "1" },
-  { cards: [], name: "Deck 2", id: "2" },
-  { cards: [], name: "Deck 3", id: "3" },
-];
-
+import { useDeckStore } from "../../lib/deckStore";
 const DeckList = () => {
   const [deckFilter, setDeckFilter] = useInputState("");
-  const [deckList, setDeckList] = useState(initialDecks);
   const [isNewDeckOpen, setisNewDeckOpen] = useState(false);
+  const deckStore = useDeckStore();
+
+  const decks = deckStore.decks;
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (active.id !== over?.id) {
-      const oldIndex = deckList.findIndex((deck) => deck.id === active.id);
-      const newIndex = deckList.findIndex((deck) => deck.id === over?.id);
-      setDeckList((items) => arrayMove(items, oldIndex, newIndex));
+      const oldIndex = decks.findIndex((deck) => deck.id === active.id);
+      const newIndex = decks.findIndex((deck) => deck.id === over?.id);
+      deckStore.setDecks(arrayMove(decks, oldIndex, newIndex));
     }
   };
 
@@ -37,7 +33,7 @@ const DeckList = () => {
       name,
     };
 
-    setDeckList((prev) => [newDeck, ...prev]);
+    deckStore.setDecks([newDeck, ...decks]);
   }
 
   return (
@@ -74,7 +70,7 @@ const DeckList = () => {
       </div>
       <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         <SortableContext
-          items={deckList.map((deck) => deck.id)}
+          items={decks.map((deck) => deck.id)}
           strategy={verticalListSortingStrategy}
         >
           <motion.div className="h-80 rounded-lg">
@@ -96,7 +92,7 @@ const DeckList = () => {
             </Text>
             <Divider />
             <div className="flex flex-col">
-              {deckList.map((deck) => (
+              {decks.map((deck) => (
                 <motion.div
                   key={deck.id}
                   className="transition-all transform hover:scale-105 hover:shadow-md"
