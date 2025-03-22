@@ -21,7 +21,7 @@ const DeckItem = ({ deck }: DeckItemProps) => {
   return (
     <div className="flex flex-col" ref={setNodeRef} style={style} {...attributes}>
       <div className="flex items-center p-2 hover:bg-stone-700 transition-colors justify-between">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 px-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
