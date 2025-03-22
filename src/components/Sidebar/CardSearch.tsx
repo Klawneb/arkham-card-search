@@ -54,7 +54,7 @@ const CardSearch = ({ cards }: CardSearchProps) => {
 
   return (
     <div className=" bg-stone-800 shadow-lg overflow-auto">
-      <Accordion multiple value={value} onChange={setValue}>
+      <Accordion multiple value={value} onChange={setValue} classNames={{ label: "p-1"}}>
         <AccordionItem name={"Search"} icon={<SearchIcon className="w-7 h-7" />}>
           <TextFilter />
         </AccordionItem>
