@@ -1,4 +1,4 @@
-import { Button, Divider, Text, TextInput } from "@mantine/core";
+import { Button, Divider, Popover, Text, TextInput } from "@mantine/core";
 import { useInputState } from "@mantine/hooks";
 import { GalleryHorizontalEndIcon, PlusIcon, SearchIcon } from "lucide-react";
 import { useState } from "react";
@@ -6,6 +6,7 @@ import DeckItem from "./DeckItem";
 import { DndContext, closestCenter, DragEndEvent } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
 import { Deck } from "../../types/deck";
+import InvestigatorCombobox from "./InvestigatorComboBox";
 
 // Initial decks array (could be fetched or come from props)
 const initialDecks: Deck[] = [
@@ -35,9 +36,44 @@ const DeckList = () => {
             <GalleryHorizontalEndIcon className="h-7 w-7" />
             <Text className="text-2xl font-semibold">Deck List</Text>
           </div>
-          <Button leftSection={<PlusIcon size={18} />} size="sm" variant="outline">
-            New
-          </Button>
+          <Popover position="right-start" withOverlay>
+            <Popover.Target>
+              <Button
+                leftSection={<PlusIcon size={18} />}
+                color="stone.6"
+                size="sm"
+                variant="filled"
+              >
+                New
+              </Button>
+            </Popover.Target>
+            <Popover.Dropdown className="bg-stone-800">
+              <div className="flex flex-col gap-2 p-4">
+                <Text size="sm" c="dimmed">
+                  Deck Name
+                </Text>
+                <TextInput
+                  placeholder="Enter deck name"
+                  radius="md"
+                  size="sm"
+                  classNames={{
+                    input: "bg-stone-800 text-stone-100 border-stone-600",
+                  }}
+                />
+                <Text size="sm" c="dimmed">
+                  Investigator
+                </Text>
+                <div className="flex gap-2 justify-between">
+                  <Button color="red" size="sm" variant="filled" className="w-20">
+                    Cancel
+                  </Button>
+                  <Button color="stone.6" size="sm" variant="filled" className="w-32">
+                    Create Deck
+                  </Button>
+                </div>
+              </div>
+            </Popover.Dropdown>
+          </Popover>
         </div>
         <TextInput
           className="mx-4"
@@ -58,11 +94,11 @@ const DeckList = () => {
           items={deckList.map((deck) => deck.id)}
           strategy={verticalListSortingStrategy}
         >
-          <div className="h-80 m-2 rounded-lg">
+          <div className="h-80rounded-lg">
             <Text c="dimmed" className="text-sm font-semibold p-1">
               YOUR DECKS
             </Text>
-            <Divider/>
+            <Divider />
             <div className="flex flex-col">
               {deckList.map((deck) => (
                 <div
