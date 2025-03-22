@@ -43,6 +43,11 @@ const NewDeckItem = ({ onAdd, setIsOpen }: NewDeckItemProps) => {
             value={nameInput}
             error={isNameError}
             onChange={(e) => handleNameInput(e.currentTarget.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleAdd();
+              }
+            }}
             className="flex-1"
             classNames={{
               input: `bg-stone-800 text-stone-100 ${
