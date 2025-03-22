@@ -46,6 +46,10 @@ const Sidebar = ({ cards }: SidebarProps) => {
           size="lg"
           value={sidebarMenu}
           onChange={setSidebarMenu}
+          classNames={{
+            root: "bg-stone-900",
+            indicator: "bg-stone-700",
+          }}
           data={[
             {
               label: (
@@ -73,10 +77,20 @@ const Sidebar = ({ cards }: SidebarProps) => {
         </Button>
         <Divider />
         <div className="flex gap-2 justify-between p-2">
-          <Button leftSection={<Info />} className="flex-1" onClick={aboutHandlers.open}>
+          <Button
+            color="stone.7"
+            leftSection={<Info />}
+            className="flex-1"
+            onClick={aboutHandlers.open}
+          >
             About
           </Button>
-          <Button leftSection={<Settings />} className="flex-1" onClick={settingsHandlers.open}>
+          <Button
+            color="stone.7"
+            leftSection={<Settings />}
+            className="flex-1"
+            onClick={settingsHandlers.open}
+          >
             Settings
           </Button>
         </div>

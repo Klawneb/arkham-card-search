@@ -4,8 +4,8 @@ import { create } from "zustand/react";
 interface FilterState {
   textFilter: string;
   setTextFilter: (text: string) => void;
-  filterTitlesOnly: boolean;
-  setFilterTitlesOnly: (titlesOnly: boolean) => void;
+  textFilterType: string;
+  setTextFilterType: (titlesOnly: string) => void;
   showAllResults: boolean;
   setShowAllResults: (showAllResults: boolean) => void;
   factionFilter: Faction[];
@@ -27,8 +27,8 @@ interface FilterState {
 export const useFilterStore = create<FilterState>((set) => ({
   textFilter: "",
   setTextFilter: (text) => set({ textFilter: text }),
-  filterTitlesOnly: false,
-  setFilterTitlesOnly: (titlesOnly) => set({ filterTitlesOnly: titlesOnly }),
+  textFilterType: "all",
+  setTextFilterType: (titlesOnly) => set({ textFilterType: titlesOnly }),
   showAllResults: false,
   setShowAllResults: (showAllResults) => set({ showAllResults: showAllResults }),
   factionFilter: [],
@@ -55,7 +55,16 @@ function textFilter(cards: Card[], filter: FilterState) {
   return cards.filter((card) => {
     const searchText = filter.textFilter.toLowerCase();
     const titleMatch = card.name.toLowerCase().includes(searchText);
-    const textMatch = !filter.filterTitlesOnly && card.text?.toLowerCase().includes(searchText);
+    const textMatch = card.text?.toLowerCase().includes(searchText);
+
+    if (filter.textFilterType === "title") {
+      return titleMatch;
+    }
+
+    if (filter.textFilterType === "text") {
+      return textMatch;
+    }
+
     return titleMatch || textMatch;
   });
 }

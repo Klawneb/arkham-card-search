@@ -1,3 +1,4 @@
+import { SearchIcon } from "lucide-react";
 import { useBackgroundColor } from "../../lib/colors";
 import { useFilterStore } from "../../lib/filter";
 import { Card } from "../../types/api";
@@ -64,7 +65,7 @@ const TraitFilter = ({ cards }: TraitFilterProps) => {
   const bgColor = useBackgroundColor("bg-[#332f2d]", "bg-[#d9d9d9]");
 
   return (
-    <div className="">
+    <div className="p-2">
       <Autocomplete
         data={filteredTraits}
         value={searchFilter}
@@ -76,12 +77,18 @@ const TraitFilter = ({ cards }: TraitFilterProps) => {
           setTimeout(() => setSearchFilter(""), 0);
         }}
         placeholder="Trait search"
-        className="m-2"
+        leftSection={<SearchIcon className="w-5 h-5 text-stone-300" />}
+        radius="md"
+        size="md"
+        classNames={{
+          input: "bg-stone-800 text-stone-100 border-stone-600",
+        }}
       />
-      <div className="grid grid-cols-2 gap-2 m-2">
+      <div className="grid grid-cols-2 gap-2 pt-2">
         {filterStore.traitFilter.map((trait) => {
           return (
             <div
+              key={trait}
               onClick={() => removeSelectedTrait(trait)}
               className={`${bgColor} rounded-3xl border-stone-500 border-2 transition-all px-1 py-0.5 text-sm flex items-center`}
             >

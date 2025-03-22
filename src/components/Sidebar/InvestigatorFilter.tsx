@@ -98,6 +98,11 @@ const InvestigatorFilter = ({ cards }: InvestigatorFilterProps) => {
               comboBox.openDropdown();
               comboBox.updateSelectedOptionIndex();
             }}
+            radius="md"
+            size="md"
+            classNames={{
+              input: "bg-stone-800 text-stone-100 border-stone-600",
+            }}
             onClick={() => comboBox.openDropdown()}
             onFocus={() => comboBox.openDropdown()}
             onBlur={() => comboBox.closeDropdown()}
