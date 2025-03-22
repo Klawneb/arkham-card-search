@@ -1,6 +1,7 @@
 import { ActionIcon, Button, Divider, Text, TextInput } from "@mantine/core";
 import { useInputState } from "@mantine/hooks";
 import { X } from "lucide-react";
+import { useState } from "react";
 
 interface NewDeckItemProps {
   onAdd: (deckName: string) => void;
@@ -9,6 +10,21 @@ interface NewDeckItemProps {
 
 const NewDeckItem = ({ onAdd, setIsOpen }: NewDeckItemProps) => {
   const [nameInput, setNameInput] = useInputState("");
+  const [isNameError, setIsNameError] = useState(false);
+
+  function handleAdd() {
+    if (nameInput.trim().length === 0) {
+      setIsNameError(true);
+      return;
+    }
+    onAdd(nameInput);
+    setIsNameError(false);
+    setIsOpen(false);
+  }
+
+  function handleNameInput(value: string) {
+    setNameInput(value);
+  }
 
   return (
     <div>
@@ -25,13 +41,16 @@ const NewDeckItem = ({ onAdd, setIsOpen }: NewDeckItemProps) => {
             radius="md"
             size="sm"
             value={nameInput}
-            onChange={setNameInput}
+            error={isNameError}
+            onChange={(e) => handleNameInput(e.currentTarget.value)}
             className="flex-1"
             classNames={{
-              input: "bg-stone-800 text-stone-100 border-stone-600",
+              input: `bg-stone-800 text-stone-100 ${
+                isNameError ? "border-red-500" : "border-stone-600"
+              }`,
             }}
           />
-          <Button size="sm" onClick={() => onAdd(nameInput)}>
+          <Button size="sm" onClick={() => handleAdd()}>
             Add
           </Button>
         </div>
