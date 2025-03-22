@@ -41,13 +41,13 @@ const AccordionItem = ({ name, children, icon }: AccordionItemProps) => {
 };
 
 const CardSearch = () => {
-  const [value, setValue] = useState<string[]>(["Search"]);
+  const [value, setValue] = useState<string[]>(["Text Search"]);
   const iconColor = useBackgroundColor("fill-stone-300", "fill-stone-800");
 
   return (
     <div className=" bg-stone-800 shadow-lg overflow-auto">
       <Accordion multiple value={value} onChange={setValue} classNames={{ label: "p-1" }}>
-        <AccordionItem name={"Search"} icon={<SearchIcon className="w-7 h-7" />}>
+        <AccordionItem name={"Text Search"} icon={<SearchIcon className="w-7 h-7" />}>
           <TextFilter />
         </AccordionItem>
         <AccordionItem name={"Packs"} icon={<MapIcon className="w-7 h-7" />}>
