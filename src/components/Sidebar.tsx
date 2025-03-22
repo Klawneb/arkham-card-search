@@ -8,6 +8,7 @@ import AboutModal from "./Sidebar/AboutModal.tsx";
 import CardSearch from "./Sidebar/CardSearch.tsx";
 import { useState } from "react";
 import DeckList from "./Sidebar/DeckList.tsx";
+import { AnimatePresence, motion } from "framer-motion";
 
 const Sidebar = () => {
   const filterStore = useFilterStore();
@@ -28,31 +29,21 @@ const Sidebar = () => {
   }
 
   return (
-    <div className={`flex flex-col h-full w-80 ${bgColor} justify-between`}>
-      <div>
+    <div className={`flex flex-col h-full w-80 ${bgColor} justify-between overflow-hidden`}>
+      <div className="flex flex-col">
         <Text fw={500} className="text-3xl text-center p-1">
           Arkham Card Tools
         </Text>
         <Divider />
-        {sidebarMenu === "search" ? <CardSearch /> : <DeckList />}
-      </div>
-      <div className="flex flex-col justify-center p-2 gap-1">
-        {sidebarMenu === "search" && (
-          <>
-            <Button onClick={clearFilters} color="red" size="lg" leftSection={<X />}>
-              Clear Filters
-            </Button>
-            <Divider />
-          </>
-        )}
-
         <SegmentedControl
           size="lg"
           value={sidebarMenu}
           onChange={setSidebarMenu}
+          className="my-2 mx-1"
           classNames={{
             root: "bg-stone-900",
             indicator: "bg-stone-700",
+            label: "flex items-center justify-center",
           }}
           data={[
             {
@@ -75,6 +66,41 @@ const Sidebar = () => {
             },
           ]}
         />
+        <Divider />
+        <AnimatePresence mode="wait">
+          {sidebarMenu === "search" ? (
+            <motion.div key="search" initial={{ x: 200 }} animate={{ x: 0 }}>
+              <CardSearch />
+            </motion.div>
+          ) : (
+            <motion.div key="deck" initial={{ x: -200 }} animate={{ x: 0 }}>
+              <DeckList />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+      <div className="flex flex-col justify-center p-2 gap-1 overflow-hidden">
+        <AnimatePresence>
+          {sidebarMenu === "search" && (
+            <motion.div
+              initial={{ x: 200 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="w-full"
+            >
+              <Button
+                className="w-full"
+                onClick={clearFilters}
+                color="red"
+                size="lg"
+                leftSection={<X />}
+              >
+                Clear Filters
+              </Button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <Divider />
         <div className="flex gap-2 justify-between">
           <Button
