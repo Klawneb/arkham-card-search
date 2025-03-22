@@ -8,6 +8,7 @@ import { SortableContext, verticalListSortingStrategy, arrayMove } from "@dnd-ki
 import { Deck } from "../../types/deck";
 import NewDeckItem from "./NewDeckItem";
 import { v4 as uuidv4 } from "uuid";
+import { motion, AnimatePresence } from "framer-motion";
 
 const initialDecks: Deck[] = [
   { cards: [], name: "Deck 1", id: "1" },
@@ -76,24 +77,37 @@ const DeckList = () => {
           items={deckList.map((deck) => deck.id)}
           strategy={verticalListSortingStrategy}
         >
-          <div className="h-80rounded-lg">
-            {isNewDeckOpen && <NewDeckItem onAdd={handleDeckAdd} setIsOpen={setisNewDeckOpen} />}
-
+          <motion.div className="h-80 rounded-lg" layout>
+            <AnimatePresence>
+              {isNewDeckOpen && (
+                <motion.div
+                  layout
+                  initial={{ height: 0, scaleY: 0 }}
+                  animate={{ height: "auto", scaleY: 1 }}
+                  exit={{ height: 0, scaleY: 0 }}
+                  transition={{ duration: 0.3 }}
+                  style={{ transformOrigin: "top"}}
+                >
+                  <NewDeckItem onAdd={handleDeckAdd} setIsOpen={setisNewDeckOpen} />
+                </motion.div>
+              )}
+            </AnimatePresence>
             <Text c="dimmed" className="text-md font-semibold p-1 text-center">
               YOUR DECKS
             </Text>
             <Divider />
             <div className="flex flex-col">
               {deckList.map((deck) => (
-                <div
+                <motion.div
                   key={deck.id}
+                  layout
                   className="transition-all transform hover:scale-105 hover:shadow-md"
                 >
                   <DeckItem deck={deck} />
-                </div>
+                </motion.div>
               ))}
             </div>
-          </div>
+          </motion.div>
         </SortableContext>
       </DndContext>
     </div>
