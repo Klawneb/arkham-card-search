@@ -41,7 +41,16 @@ const Sidebar = ({ cards }: SidebarProps) => {
         <Divider />
         {sidebarMenu === "search" ? <CardSearch cards={cards} /> : <DeckList />}
       </div>
-      <div className="flex flex-col justify-center p-2">
+      <div className="flex flex-col justify-center p-2 gap-1">
+        {sidebarMenu === "search" && (
+          <>
+            <Button onClick={clearFilters} color="red" size="lg" leftSection={<X />}>
+              Clear Filters
+            </Button>
+            <Divider />
+          </>
+        )}
+
         <SegmentedControl
           size="lg"
           value={sidebarMenu}
@@ -71,12 +80,8 @@ const Sidebar = ({ cards }: SidebarProps) => {
             },
           ]}
         />
-        <Divider className="mt-2" />
-        <Button onClick={clearFilters} color="red" size="lg" className="m-2" leftSection={<X />}>
-          Clear Filters
-        </Button>
         <Divider />
-        <div className="flex gap-2 justify-between p-2">
+        <div className="flex gap-2 justify-between">
           <Button
             color="stone.7"
             leftSection={<Info />}
