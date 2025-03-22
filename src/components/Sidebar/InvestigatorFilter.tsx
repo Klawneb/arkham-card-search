@@ -1,36 +1,15 @@
-import {
-  AspectRatio,
-  Combobox,
-  TextInput,
-  useCombobox,
-  Image,
-  Modal,
-  MantineTransition,
-  darken,
-} from "@mantine/core";
-import { Card, Faction, FactionColors, Type } from "../../types/api";
-import { useRef, useState } from "react";
-import { useDisclosure } from "@mantine/hooks";
-import { X } from "lucide-react";
-import { parseCardText } from "../../lib/parsers";
-import parseHTML from "html-react-parser";
+import React from "react";
+import { AspectRatio, Image, Modal, MantineTransition } from "@mantine/core";
 import FlipCard from "../FlipCard";
 import { useFilterStore } from "../../lib/filter";
+import InvestigatorCombobox from "./InvestigatorComboBox";
+import { Card } from "../../types/api";
+import parseHTML from "html-react-parser";
+import { parseCardText } from "../../lib/parsers";
+import { useDisclosure } from "@mantine/hooks";
 
 interface InvestigatorFilterProps {
   cards: Card[];
-}
-
-function getTextColor(faction: string) {
-  if (faction === "Seeker") {
-    return "text-stone-300";
-  }
-
-  if (faction === "Neutral") {
-    return "text-white";
-  }
-
-  return "text-stone-400";
 }
 
 const enterTransition: MantineTransition = {
@@ -46,111 +25,15 @@ function onBackgroundClicked(e: React.MouseEvent<HTMLDivElement>, closeFunction:
 }
 
 const InvestigatorFilter = ({ cards }: InvestigatorFilterProps) => {
-  const comboBox = useCombobox({});
-  const [inputValue, setInputValue] = useState("");
   const [opened, handlers] = useDisclosure();
   const filterStore = useFilterStore();
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  function getInvestigatorByCode(code: string) {
-    return cards.find((card) => {
-      return card.code === code;
-    });
-  }
-
-  function getInvestigatorData() {
-    const investigatorMap = new Map<string, Card[]>();
-
-    cards.forEach((card) => {
-      if (card.type_code != Type.Investigator) {
-        return;
-      }
-
-      if (!investigatorMap.has(card.faction_name)) {
-        investigatorMap.set(card.faction_name, []);
-      }
-
-      investigatorMap.get(card.faction_name)?.push(card);
-    });
-
-    return Object.fromEntries(investigatorMap.entries());
-  }
 
   return (
     <div className="m-2 flex flex-col">
-      <Combobox
-        store={comboBox}
-        onOptionSubmit={(value) => {
-          setInputValue(getInvestigatorByCode(value)?.name ?? "");
-          filterStore.setInvestigatorFilter(getInvestigatorByCode(value) ?? null);
-          comboBox.closeDropdown();
-          inputRef.current?.blur();
-        }}
-        classNames={{ groupLabel: "text-xl text-white" }}
-      >
-        <Combobox.Target>
-          <TextInput
-            placeholder="Investigator name"
-            value={inputValue}
-            ref={inputRef}
-            onChange={(event) => {
-              setInputValue(event.target.value);
-              comboBox.openDropdown();
-              comboBox.updateSelectedOptionIndex();
-            }}
-            radius="md"
-            size="md"
-            classNames={{
-              input: "bg-stone-800 text-stone-100 border-stone-600",
-            }}
-            onClick={() => comboBox.openDropdown()}
-            onFocus={() => comboBox.openDropdown()}
-            onBlur={() => comboBox.closeDropdown()}
-            rightSection={
-              <button
-                className="hover:scale-125 hover:fill-white transition-all"
-                onClick={() => {
-                  setInputValue("");
-                  filterStore.setInvestigatorFilter(null);
-                }}
-              >
-                <X width={20} />
-              </button>
-            }
-          />
-        </Combobox.Target>
-        <Combobox.Dropdown className="max-h-80 overflow-auto">
-          {Object.entries(getInvestigatorData()).map(([faction, investigators]) => {
-            const factionEnum = Faction[faction as keyof typeof Faction];
-            return (
-              <Combobox.Group
-                key={faction}
-                label={faction}
-                style={{ backgroundColor: darken(FactionColors[factionEnum], 0.2) }}
-                className="text-white"
-              >
-                {investigators.map((investigator) => {
-                  if (!investigator.name.toLowerCase().includes(inputValue.toLowerCase())) {
-                    return;
-                  }
-
-                  return (
-                    <Combobox.Option
-                      className="flex truncate items-center"
-                      value={investigator.code}
-                      key={investigator.code}
-                    >
-                      <p>{investigator.name}</p>
-                      <p className="mx-1">-</p>
-                      <p className={`text-xs ${getTextColor(faction)}`}>{investigator.pack_name}</p>
-                    </Combobox.Option>
-                  );
-                })}
-              </Combobox.Group>
-            );
-          })}
-        </Combobox.Dropdown>
-      </Combobox>
+      <InvestigatorCombobox
+        cards={cards}
+        onSelect={(investigator) => filterStore.setInvestigatorFilter(investigator)}
+      />
       {filterStore.investigatorFilter && (
         <div className="flex flex-col">
           <AspectRatio
