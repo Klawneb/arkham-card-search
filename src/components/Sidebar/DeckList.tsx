@@ -77,16 +77,15 @@ const DeckList = () => {
           items={deckList.map((deck) => deck.id)}
           strategy={verticalListSortingStrategy}
         >
-          <motion.div className="h-80 rounded-lg" layout>
+          <motion.div className="h-80 rounded-lg">
             <AnimatePresence>
               {isNewDeckOpen && (
                 <motion.div
-                  layout
                   initial={{ height: 0, scaleY: 0 }}
                   animate={{ height: "auto", scaleY: 1 }}
                   exit={{ height: 0, scaleY: 0 }}
                   transition={{ duration: 0.3 }}
-                  style={{ transformOrigin: "top"}}
+                  style={{ transformOrigin: "top" }}
                 >
                   <NewDeckItem onAdd={handleDeckAdd} setIsOpen={setisNewDeckOpen} />
                 </motion.div>
@@ -100,7 +99,6 @@ const DeckList = () => {
               {deckList.map((deck) => (
                 <motion.div
                   key={deck.id}
-                  layout
                   className="transition-all transform hover:scale-105 hover:shadow-md"
                 >
                   <DeckItem deck={deck} />
