@@ -1,13 +1,12 @@
-import { Chip, darken, lighten, useMantineColorScheme } from "@mantine/core";
-import { useBackgroundColor } from "../../lib/colors";
+import { Chip, darken } from "@mantine/core";
+
 import { Type } from "../../types/api";
 import { useFilterStore } from "../../lib/filter";
 
 const TypeFilter = () => {
   const filterStore = useFilterStore();
 
-  const theme = useMantineColorScheme();
-  const color = useBackgroundColor("#8c8c8c", "#bababa");
+  const color = "#8c8c8c";
 
   return (
     <div className="flex flex-col p-2">
@@ -31,8 +30,8 @@ const TypeFilter = () => {
                     width: "100%",
                     justifyContent: "center",
                     backgroundColor: filterStore.typeFilter.includes(type as Type)
-                      ? color
-                      : theme.colorScheme === "dark" ? darken(color, 0.5) : lighten(color, 0.5),
+                      ? "color"
+                      : darken(color, 0.5),
                     border: `2px solid ${color}`,
                   },
                 }}

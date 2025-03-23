@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import { Pack } from "../../types/api";
 import { useFilterStore } from "../../lib/filter";
 import { Accordion, Checkbox, Divider } from "@mantine/core";
-import { useBackgroundColor } from "../../lib/colors";
 
 async function fetchPacks(): Promise<Pack[]> {
   const response = await fetch("https://arkhamdb.com/api/public/packs/");
@@ -50,7 +49,6 @@ const PackFilter = () => {
     queryFn: fetchPacks,
   });
   const filterStore = useFilterStore();
-  const bgColor = useBackgroundColor("bg-[#332f2d]", "bg-[#d9d9d9]");
 
   function handleSubPackClick(pack: Pack) {
     if (isSubPackEnabled(pack)) {
@@ -117,9 +115,7 @@ const PackFilter = () => {
                       return (
                         <div
                           key={pack.code}
-                          className={`flex items-center p-1 ${
-                            index % 2 === 0 ? bgColor : ""
-                          }`}
+                          className={`flex items-center p-1 ${index % 2 === 0 ? "bg-[#332f2d]" : ""}`}
                         >
                           <Checkbox
                             className="ml-6"

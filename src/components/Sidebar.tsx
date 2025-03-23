@@ -3,7 +3,6 @@ import { useFilterStore } from "../lib/filter.ts";
 import { GalleryHorizontalEndIcon, Info, SearchIcon, Settings, X } from "lucide-react";
 import { useDisclosure } from "@mantine/hooks";
 import SettingsModal from "./Sidebar/SettingsModal.tsx";
-import { useBackgroundColor } from "../lib/colors.ts";
 import AboutModal from "./Sidebar/AboutModal.tsx";
 import CardSearch from "./Sidebar/CardSearch.tsx";
 import { useState } from "react";
@@ -14,7 +13,6 @@ const Sidebar = () => {
   const filterStore = useFilterStore();
   const [settingsOpened, settingsHandlers] = useDisclosure();
   const [aboutOpened, aboutHandlers] = useDisclosure();
-  const bgColor = useBackgroundColor("bg-stone-800", "bg-stone-100");
   const [sidebarMenu, setSidebarMenu] = useState("search");
 
   function clearFilters() {
@@ -29,7 +27,7 @@ const Sidebar = () => {
   }
 
   return (
-    <div className={`flex flex-col h-full w-80 ${bgColor} justify-between overflow-hidden`}>
+    <div className={`flex flex-col h-full w-80 bg-stone-800 justify-between overflow-hidden`}>
       <div className="flex flex-col">
         <Text fw={500} className="text-3xl text-center p-1">
           Arkham Card Tools
@@ -41,10 +39,10 @@ const Sidebar = () => {
           onChange={setSidebarMenu}
           className="my-2 mx-1"
           classNames={{
-            root: "bg-stone-900",
-            indicator: "bg-stone-700",
             label: "flex items-center justify-center",
+            root: "bg-stone-900"
           }}
+          color="teal"
           data={[
             {
               label: (
@@ -79,7 +77,7 @@ const Sidebar = () => {
           )}
         </AnimatePresence>
       </div>
-      <div className="flex flex-col justify-center p-2 gap-1 overflow-hidden">
+      <div className="flex flex-col justify-center p-2 gap-2 overflow-hidden">
         <AnimatePresence>
           {sidebarMenu === "search" && (
             <motion.div
@@ -103,20 +101,10 @@ const Sidebar = () => {
 
         <Divider />
         <div className="flex gap-2 justify-between">
-          <Button
-            color="stone.7"
-            leftSection={<Info />}
-            className="flex-1"
-            onClick={aboutHandlers.open}
-          >
+          <Button leftSection={<Info />} className="flex-1" onClick={aboutHandlers.open}>
             About
           </Button>
-          <Button
-            color="stone.7"
-            leftSection={<Settings />}
-            className="flex-1"
-            onClick={settingsHandlers.open}
-          >
+          <Button leftSection={<Settings />} className="flex-1" onClick={settingsHandlers.open}>
             Settings
           </Button>
         </div>

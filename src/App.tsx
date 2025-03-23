@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import CardDisplay from "./components/CardDisplay.tsx";
 import Sidebar from "./components/Sidebar.tsx";
 import { Card } from "./types/api.ts";
-import { useBackgroundColor } from "./lib/colors.ts";
 import { createContext } from "react";
 
 async function fetchCards(): Promise<Card[]> {
@@ -22,13 +21,12 @@ function App() {
   });
 
   const cardList = cards.data ?? [];
-  const bgColor = useBackgroundColor("bg-stone-900", "bg-stone-300");
 
   return (
-    <div className={`flex h-screen w-screen ${bgColor}`}>
+    <div className={`flex h-screen w-screen bg-stone-900`}>
       <CardContext.Provider value={cardList}>
-        <Sidebar/>
-        <CardDisplay/>
+        <Sidebar />
+        <CardDisplay />
       </CardContext.Provider>
     </div>
   );

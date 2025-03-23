@@ -1,6 +1,6 @@
 import { SegmentedControl, TextInput } from "@mantine/core";
 import { useFilterStore } from "../../lib/filter.ts";
-import { SearchIcon, X } from "lucide-react";
+import { X } from "lucide-react";
 
 const TextFilter = () => {
   const filterStore = useFilterStore();
@@ -14,12 +14,11 @@ const TextFilter = () => {
       <TextInput
         value={filterStore.textFilter}
         onChange={(e) => filterStore.setTextFilter(e.target.value)}
-        leftSection={<SearchIcon className="w-5 h-5 text-stone-300" />}
         placeholder="Filter cards"
         radius="md"
         size="md"
         classNames={{
-          input: "bg-stone-800 text-stone-100 border-stone-600",
+          input: "bg-stone-900 text-stone-300 border-stone-600",
         }}
         rightSection={
           <X
@@ -39,8 +38,8 @@ const TextFilter = () => {
         size="xs"
         classNames={{
           root: "bg-stone-900",
-          indicator: "bg-stone-700"
         }}
+        color="teal"
       />
     </div>
   );

@@ -16,7 +16,6 @@ const XPFilter = () => {
   return (
     <div className="p-6">
       <RangeSlider
-        color="stone.4"
         marks={marks}
         min={0}
         max={10}

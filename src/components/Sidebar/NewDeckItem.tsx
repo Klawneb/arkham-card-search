@@ -31,7 +31,7 @@ const NewDeckItem = ({ onAdd, setIsOpen }: NewDeckItemProps) => {
       <div className="p-2 flex flex-col">
         <div className="flex items-center">
           <Text className="font-semibold text-sm flex-1 text-stone-300">NEW DECK</Text>
-          <ActionIcon variant="subtle" color="stone.3" onClick={() => setIsOpen(false)}>
+          <ActionIcon variant="subtle" onClick={() => setIsOpen(false)}>
             <X />
           </ActionIcon>
         </div>

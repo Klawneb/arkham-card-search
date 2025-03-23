@@ -32,9 +32,6 @@ const marks = [
 
 const SettingsModal = ({ opened, onClose }: SettingsModalProps) => {
   const settingsStore = useSettingsStore();
-  const { toggleColorScheme, colorScheme } = useMantineColorScheme({
-    keepTransitions: true,
-  });
 
   return (
     <Modal.Root opened={opened} onClose={onClose} size={"md"}>
@@ -43,14 +40,14 @@ const SettingsModal = ({ opened, onClose }: SettingsModalProps) => {
         <Modal.Header>
           <Modal.Title>
             <div className="flex gap-2 items-center">
-              <SettingsIcon className="w-7 h-7"/>
+              <SettingsIcon className="w-7 h-7" />
               <Text className="text-2xl font-semibold">Settings</Text>
             </div>
           </Modal.Title>
           <Modal.CloseButton />
         </Modal.Header>
         <Modal.Body>
-          <div className="flex flex-col p-2">
+          <div className="flex flex-col p-3 pb-6">
             <div className="flex flex-col">
               <div className="flex gap-2">
                 <Proportions />
@@ -69,19 +66,6 @@ const SettingsModal = ({ opened, onClose }: SettingsModalProps) => {
                 restrictToMarks
                 size={"md"}
                 label={null}
-              />
-            </div>
-            <Divider className="mt-10" />
-            <div className="flex mt-4 items-center gap-2">
-              <MoonIcon />
-              <Text fw={500} size="lg">
-                Dark Mode:
-              </Text>
-              <Switch
-                size="lg"
-                onChange={toggleColorScheme}
-                checked={colorScheme === "dark"}
-                defaultChecked
               />
             </div>
           </div>

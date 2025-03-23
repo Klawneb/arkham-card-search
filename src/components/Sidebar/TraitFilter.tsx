@@ -1,5 +1,4 @@
 import { SearchIcon } from "lucide-react";
-import { useBackgroundColor } from "../../lib/colors";
 import { useFilterStore } from "../../lib/filter";
 import { Card } from "../../types/api";
 import { Autocomplete, Text } from "@mantine/core";
@@ -60,7 +59,6 @@ const TraitFilter = () => {
   }
 
   const filteredTraits = filterTraits(traits);
-  const bgColor = useBackgroundColor("bg-[#332f2d]", "bg-[#d9d9d9]");
 
   return (
     <div className="p-2">
@@ -88,7 +86,7 @@ const TraitFilter = () => {
             <div
               key={trait}
               onClick={() => removeSelectedTrait(trait)}
-              className={`${bgColor} rounded-3xl border-stone-500 border-2 transition-all px-1 py-0.5 text-sm flex items-center`}
+              className={`bg-[#332f2d] rounded-3xl border-stone-500 border-2 transition-all px-1 py-0.5 text-sm flex items-center`}
             >
               <Text className="flex-1 text-center block truncate font-semibold">{trait}</Text>
               <button className="w-5 absolute hover:scale-125 stroke-stone-400 hover:stroke-red-500 transition-all">

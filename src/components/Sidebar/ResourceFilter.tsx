@@ -30,7 +30,6 @@ const ResourceFilter = () => {
   return (
     <div className="p-6">
       <RangeSlider
-        color="stone.4"
         marks={marks}
         min={-2}
         max={12}

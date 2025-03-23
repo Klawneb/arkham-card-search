@@ -47,7 +47,6 @@ const DeckList = () => {
           <Button
             leftSection={<PlusIcon size={18} />}
             onClick={() => setisNewDeckOpen(true)}
-            color="stone.6"
             size="sm"
             variant="filled"
           >
@@ -63,7 +62,7 @@ const DeckList = () => {
           radius="md"
           size="md"
           classNames={{
-            input: "bg-stone-800 text-stone-100 border-stone-600",
+            input: "bg-stone-900 text-stone-100 border-stone-600",
           }}
         />
         <Divider />
