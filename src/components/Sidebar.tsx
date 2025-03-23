@@ -81,7 +81,7 @@ const Sidebar = () => {
 
       <div className="flex flex-col justify-center p-2 gap-2">
         <AnimatePresence>
-          <motion.div layout>
+          <motion.div layout key={"deck-view"}>
             <DeckView />
           </motion.div>
           {sidebarMenu === "search" && (
@@ -90,6 +90,7 @@ const Sidebar = () => {
               animate={{ x: 0, opacity: 1 }}
               exit={{ opacity: 0 }}
               className="w-full"
+              key={"clear-button"}
             >
               <Button
                 className="w-full"
