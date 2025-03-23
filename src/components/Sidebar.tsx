@@ -28,8 +28,8 @@ const Sidebar = () => {
   }
 
   return (
-    <div className={`flex flex-col h-full w-80 bg-stone-800 justify-between overflow-hidden`}>
-      <div className="flex flex-col">
+    <div className={`flex flex-col h-full w-80 bg-stone-800 justify-between overflow-x-hidden`}>
+      <div className="flex flex-col flex-1 overflow-auto">
         <Text fw={500} className="text-3xl text-center p-1">
           Arkham Card Tools
         </Text>
@@ -38,10 +38,10 @@ const Sidebar = () => {
           size="lg"
           value={sidebarMenu}
           onChange={setSidebarMenu}
-          className="my-2 mx-1"
+          className="my-2 mx-1 flex-shrink-0"
           classNames={{
             label: "flex items-center justify-center",
-            root: "bg-stone-900"
+            root: "bg-stone-900",
           }}
           color="teal"
           data={[
@@ -78,11 +78,12 @@ const Sidebar = () => {
           )}
         </AnimatePresence>
       </div>
-      <div>
-        <DeckView />
-      </div>
-      <div className="flex flex-col justify-center p-2 gap-2 overflow-hidden">
+
+      <div className="flex flex-col justify-center p-2 gap-2">
         <AnimatePresence>
+          <motion.div layout>
+            <DeckView />
+          </motion.div>
           {sidebarMenu === "search" && (
             <motion.div
               initial={{ x: 200 }}
