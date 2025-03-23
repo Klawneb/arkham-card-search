@@ -74,7 +74,7 @@ const InvestigatorCombobox: React.FC<InvestigatorComboboxProps> = ({ cards, onSe
           radius="md"
           size="md"
           classNames={{
-            input: "bg-stone-800 text-stone-100 border-stone-600",
+            input: "bg-stone-900 text-stone-100 border-stone-600",
           }}
           onClick={() => comboBox.openDropdown()}
           onFocus={() => comboBox.openDropdown()}

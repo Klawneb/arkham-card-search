@@ -77,7 +77,8 @@ const TraitFilter = () => {
         radius="md"
         size="md"
         classNames={{
-          input: "bg-stone-800 text-stone-100 border-stone-600",
+          input: "bg-stone-900 text-stone-300 border-stone-600",
+          dropdown: "bg-stone-800",
         }}
       />
       <div className="grid grid-cols-2 gap-2 pt-2">

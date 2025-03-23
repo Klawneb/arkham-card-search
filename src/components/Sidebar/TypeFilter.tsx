@@ -29,10 +29,6 @@ const TypeFilter = () => {
                   label: {
                     width: "100%",
                     justifyContent: "center",
-                    backgroundColor: filterStore.typeFilter.includes(type as Type)
-                      ? "color"
-                      : darken(color, 0.5),
-                    border: `2px solid ${color}`,
                   },
                 }}
               >
