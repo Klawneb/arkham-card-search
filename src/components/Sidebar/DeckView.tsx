@@ -1,11 +1,14 @@
-import { Deck } from "../../types/deck";
+import { useDeckStore } from "../../lib/deckStore";
 
-interface DeckViewProps {
-  deck: Deck;
-}
+const DeckView = () => {
+  const deckStore = useDeckStore();
+  const deck = deckStore.currentDeck;
 
-const DeckView = ({ deck }: DeckViewProps) => {
-  return <div></div>;
+  return <div>
+    {
+      
+    }
+  </div>;
 };
 
 export default DeckView;

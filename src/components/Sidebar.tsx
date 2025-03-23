@@ -8,6 +8,7 @@ import CardSearch from "./Sidebar/CardSearch.tsx";
 import { useState } from "react";
 import DeckList from "./Sidebar/DeckList.tsx";
 import { AnimatePresence, motion } from "framer-motion";
+import DeckView from "./Sidebar/DeckView.tsx";
 
 const Sidebar = () => {
   const filterStore = useFilterStore();
@@ -76,6 +77,9 @@ const Sidebar = () => {
             </motion.div>
           )}
         </AnimatePresence>
+      </div>
+      <div>
+        <DeckView />
       </div>
       <div className="flex flex-col justify-center p-2 gap-2 overflow-hidden">
         <AnimatePresence>
