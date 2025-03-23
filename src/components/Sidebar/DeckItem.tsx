@@ -35,7 +35,11 @@ const DeckItem = ({ deck }: DeckItemProps) => {
       {...attributes}
       onClick={handleClick}
     >
-      <div className={`flex items-center p-2 hover:bg-stone-600 transition-colors justify-between`}>
+      <div
+        className={`flex items-center p-2 ${
+          isActive ? "" : "hover:bg-stone-600"
+        } transition-colors justify-between`}
+      >
         <div className="flex items-center gap-2 px-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -50,7 +54,11 @@ const DeckItem = ({ deck }: DeckItemProps) => {
               strokeWidth={1}
             />
           </svg>
-          <Text className={`font-semibold text-lg ${isActive ? "text-stone-50": "text-stone-300"}`}>{deck.name}</Text>
+          <Text
+            className={`font-semibold text-lg ${isActive ? "text-stone-50" : "text-stone-300"}`}
+          >
+            {deck.name}
+          </Text>
           {deck.investigator && <Text>- {deck.investigator.name}</Text>}
         </div>
         <div className="flex items-center gap-4">
