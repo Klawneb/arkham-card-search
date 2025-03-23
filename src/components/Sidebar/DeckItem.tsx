@@ -39,7 +39,7 @@ const DeckItem = ({ deck }: DeckItemProps) => {
           {deck.investigator && <Text>- {deck.investigator.name}</Text>}
         </div>
         <div className="flex items-center gap-4">
-          <ActionIcon size="md" variant="subtle">
+          <ActionIcon size="md" variant="subtle" className="mx-2">
             <EllipsisVerticalIcon className="w-6 h-6 text-stone-300" />
           </ActionIcon>
         </div>

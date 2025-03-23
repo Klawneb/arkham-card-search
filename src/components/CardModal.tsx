@@ -1,4 +1,4 @@
-import { Modal, Image, AspectRatio } from "@mantine/core";
+import { Modal, Image, AspectRatio, Text } from "@mantine/core";
 import { Card, Type } from "../types/api";
 import parseHTML from "html-react-parser";
 import { parseCardText } from "../lib/parsers";
@@ -82,6 +82,7 @@ const CardModal = ({ onClose, opened, card, setModalCard, cards }: CardModalProp
       overlayProps={{ blur: 5, backgroundOpacity: 0.9 }}
       classNames={{ body: "h-full p-0", content: "bg-transparent" }}
       className="text-stone-300"
+      transitionProps={{ transition: "fade" }}
     >
       <p className="italic opacity-40 bottom-5 w-full text-center absolute">
         Use the arrow keys to change cards
@@ -125,18 +126,18 @@ const CardModal = ({ onClose, opened, card, setModalCard, cards }: CardModalProp
               onClick={(e) => onBackgroundClicked(e, onClose)}
             >
               <div>
-                <h2 className="text-center text-5xl">{card?.name}</h2>
-                <p className="text-center font-bold text-2xl pt-5">{card?.type_name}</p>
+                <Text className="text-center text-5xl">{card?.name}</Text>
+                <Text className="text-center font-bold text-2xl pt-5">{card?.type_name}</Text>
               </div>
               <div className="pt-20">
-                <p className="text-center text-2xl font-bold">{card?.traits}</p>
-                <p className="text-center text-2xl pt-5">
+                <Text className="text-center text-2xl font-bold">{card?.traits}</Text>
+                <Text className="text-center text-2xl pt-5">
                   {card?.text ? parseHTML(parseCardText(card.text)) : ""}
-                </p>
+                </Text>
               </div>
               <div className="pt-20">
-                <p className="text-center italic">{card?.flavor}</p>
-                <p className="text-center font-bold pt-5">{card?.pack_name}</p>
+                <Text className="text-center italic">{card?.flavor}</Text>
+                <Text className="text-center font-bold pt-5">{card?.pack_name}</Text>
               </div>
             </div>
           </motion.div>
