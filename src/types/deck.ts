@@ -1,7 +1,7 @@
 import { Card } from "./api";
 
 export interface Deck {
-  cards: Card[];
+  cards: Map<string, { card: Card; quantity: number }>;
   id: string;
   name: string;
   investigator?: Card;
