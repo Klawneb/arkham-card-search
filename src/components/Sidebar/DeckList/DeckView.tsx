@@ -13,8 +13,11 @@ const DeckView = () => {
     e.preventDefault();
     const data = e.dataTransfer.getData("application/json");
     if (data) {
-      const cardData: Card = JSON.parse(data);
-      console.log(cardData);
+      const card: Card = JSON.parse(data);
+      if (deck && card) {
+        deckStore.addCardToDeck(deck?.id, card);
+        console.log(deck.cards);
+      }
     }
   };
 
@@ -44,7 +47,7 @@ const DeckView = () => {
         </div>
       </div>
       <Collapse in={opened}>
-        <div className="bg-stone-900 p-2 h-40" onDragOver={handleDragOver} onDrop={handleDrop}>
+        <div className="bg-stone-900 p-2 h-80" onDragOver={handleDragOver} onDrop={handleDrop}>
           <Text c="dimmed" className="font-semibold">
             CARDS
           </Text>
