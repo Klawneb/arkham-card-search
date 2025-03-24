@@ -1,15 +1,13 @@
-import { Button, Divider, Popover, Text, TextInput } from "@mantine/core";
+import { closestCenter, DndContext, DragEndEvent } from "@dnd-kit/core";
+import { arrayMove, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { Button, Divider, Text, TextInput } from "@mantine/core";
 import { useInputState } from "@mantine/hooks";
+import { AnimatePresence, motion } from "framer-motion";
 import { GalleryHorizontalEndIcon, PlusIcon, SearchIcon } from "lucide-react";
-import { useContext, useState } from "react";
-import { DndContext, closestCenter, DragEndEvent } from "@dnd-kit/core";
-import { SortableContext, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
-import { Deck } from "../../../types/deck";
-import NewDeckItem from "./NewDeckItem";
-import { v4 as uuidv4 } from "uuid";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 import { useDeckStore } from "../../../lib/deckStore";
 import DeckItem from "./DeckItem";
+import NewDeckItem from "./NewDeckItem";
 const DeckList = () => {
   const [deckFilter, setDeckFilter] = useInputState("");
   const [isNewDeckOpen, setisNewDeckOpen] = useState(false);
@@ -27,13 +25,7 @@ const DeckList = () => {
   };
 
   function handleDeckAdd(name: string) {
-    const newDeck: Deck = {
-      cards: [],
-      id: uuidv4(),
-      name,
-    };
-
-    deckStore.setDecks([newDeck, ...decks]);
+    deckStore.createDeck(name);
   }
 
   return (

@@ -1,7 +1,7 @@
 import { Collapse, Divider, Text } from "@mantine/core";
-import { useDeckStore } from "../../../lib/deckStore";
-import { useState } from "react";
 import { ChevronUpIcon } from "lucide-react";
+import { useState } from "react";
+import { useDeckStore } from "../../../lib/deckStore";
 import { Card } from "../../../types/api";
 
 const DeckView = () => {
@@ -14,6 +14,7 @@ const DeckView = () => {
     const data = e.dataTransfer.getData("application/json");
     if (data) {
       const cardData: Card = JSON.parse(data);
+      console.log(cardData);
     }
   };
 

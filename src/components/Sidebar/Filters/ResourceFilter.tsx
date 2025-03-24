@@ -1,5 +1,5 @@
 import { RangeSlider } from "@mantine/core";
-import { useFilterStore } from "../../lib/filter";
+import { useFilterStore } from "../../../lib/filter";
 
 const marks = [
   { value: -2, label: "X" },

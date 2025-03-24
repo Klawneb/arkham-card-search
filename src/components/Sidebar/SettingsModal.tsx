@@ -1,6 +1,6 @@
-import { Divider, Modal, Slider, Switch, Text, useMantineColorScheme } from "@mantine/core";
+import { Modal, Slider, Text } from "@mantine/core";
+import { Proportions, SettingsIcon } from "lucide-react";
 import { useSettingsStore } from "../../lib/settings";
-import { MoonIcon, Proportions, SettingsIcon } from "lucide-react";
 
 interface SettingsModalProps {
   opened: boolean;

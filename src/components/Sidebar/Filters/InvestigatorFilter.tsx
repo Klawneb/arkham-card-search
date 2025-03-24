@@ -1,13 +1,12 @@
-import React, { useContext } from "react";
-import { AspectRatio, Image, Modal, MantineTransition } from "@mantine/core";
-import FlipCard from "../FlipCard";
-import { useFilterStore } from "../../lib/filter";
-import InvestigatorCombobox from "./InvestigatorComboBox";
-import { Card } from "../../types/api";
-import parseHTML from "html-react-parser";
-import { parseCardText } from "../../lib/parsers";
+import { AspectRatio, Image, MantineTransition, Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { CardContext } from "../../App";
+import parseHTML from "html-react-parser";
+import React, { useContext } from "react";
+import { CardContext } from "../../../App";
+import { useFilterStore } from "../../../lib/filter";
+import { parseCardText } from "../../../lib/parsers";
+import FlipCard from "../../FlipCard";
+import InvestigatorCombobox from "./InvestigatorComboBox";
 
 const enterTransition: MantineTransition = {
   in: { opacity: 1, scale: 1 },

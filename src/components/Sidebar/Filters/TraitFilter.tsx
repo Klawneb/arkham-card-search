@@ -1,9 +1,9 @@
 import { SearchIcon } from "lucide-react";
-import { useFilterStore } from "../../lib/filter";
-import { Card } from "../../types/api";
+import { useFilterStore } from "../../../lib/filter";
+import { Card } from "../../../types/api";
 import { Autocomplete, Text } from "@mantine/core";
 import { useContext, useState } from "react";
-import { CardContext } from "../../App";
+import { CardContext } from "../../../App";
 
 function getTraitList(cards: Card[]): string[] {
   const traitMap = new Map<string, number>();

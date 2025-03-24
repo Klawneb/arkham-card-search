@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Combobox, TextInput } from "@mantine/core";
-import { Card, Type, Faction, FactionColors } from "../../types/api";
+import { Card, Type, Faction, FactionColors } from "../../../types/api";
 import { useCombobox } from "@mantine/core";
 import { darken } from "@mantine/core";
 import { X } from "lucide-react";

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { Pack } from "../../types/api";
-import { useFilterStore } from "../../lib/filter";
+import { Pack } from "../../../types/api";
+import { useFilterStore } from "../../../lib/filter";
 import { Accordion, Checkbox, Divider } from "@mantine/core";
 
 async function fetchPacks(): Promise<Pack[]> {

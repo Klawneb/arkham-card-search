@@ -1,5 +1,5 @@
 import { SegmentedControl, TextInput } from "@mantine/core";
-import { useFilterStore } from "../../lib/filter.ts";
+import { useFilterStore } from "../../../lib/filter.ts";
 import { X } from "lucide-react";
 
 const TextFilter = () => {

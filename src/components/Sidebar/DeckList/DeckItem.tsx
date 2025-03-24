@@ -1,9 +1,9 @@
-import { ActionIcon, Button, Divider, Text, useMantineTheme } from "@mantine/core";
-import { Deck } from "../../types/deck";
-import { EllipsisVerticalIcon } from "lucide-react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { useDeckStore } from "../../lib/deckStore";
+import { ActionIcon, Divider, Text, useMantineTheme } from "@mantine/core";
+import { EllipsisVerticalIcon } from "lucide-react";
+import { useDeckStore } from "../../../lib/deckStore";
+import { Deck } from "../../../types/deck";
 
 interface DeckItemProps {
   deck: Deck;

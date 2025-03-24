@@ -1,12 +1,10 @@
-import { Chip, darken } from "@mantine/core";
+import { Chip } from "@mantine/core";
 
-import { Type } from "../../../types/api";
 import { useFilterStore } from "../../../lib/filter";
+import { Type } from "../../../types/api";
 
 const TypeFilter = () => {
   const filterStore = useFilterStore();
-
-  const color = "#8c8c8c";
 
   return (
     <div className="flex flex-col p-2">

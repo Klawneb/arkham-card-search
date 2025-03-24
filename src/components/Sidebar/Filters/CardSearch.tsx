@@ -1,12 +1,8 @@
 import { Accordion, Text } from "@mantine/core";
 import { ReactNode, useState } from "react";
-import TextFilter from "../TextFilter";
 import PackFilter from "./PackFilter";
 import FactionFilter from "./FactionFilter";
-import XPFilter from "../XPFilter";
-import ResourceFilter from "../ResourceFilter";
 import TypeFilter from "./TypeFilter";
-import TraitFilter from "../TraitFilter";
 import {
   BookOpen,
   FileSearch,
@@ -17,6 +13,10 @@ import {
   TagsIcon,
 } from "lucide-react";
 import InvestigatorFilter from "./InvestigatorFilter";
+import TextFilter from "./TextFilter";
+import XPFilter from "./XPFilter";
+import ResourceFilter from "./ResourceFilter";
+import TraitFilter from "./TraitFilter";
 
 interface AccordionItemProps {
   name: string;
