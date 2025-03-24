@@ -2,14 +2,14 @@ import { Button, Divider, Popover, Text, TextInput } from "@mantine/core";
 import { useInputState } from "@mantine/hooks";
 import { GalleryHorizontalEndIcon, PlusIcon, SearchIcon } from "lucide-react";
 import { useContext, useState } from "react";
-import DeckItem from "./DeckItem";
 import { DndContext, closestCenter, DragEndEvent } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
-import { Deck } from "../../types/deck";
+import { Deck } from "../../../types/deck";
 import NewDeckItem from "./NewDeckItem";
 import { v4 as uuidv4 } from "uuid";
 import { motion, AnimatePresence } from "framer-motion";
-import { useDeckStore } from "../../lib/deckStore";
+import { useDeckStore } from "../../../lib/deckStore";
+import DeckItem from "./DeckItem";
 const DeckList = () => {
   const [deckFilter, setDeckFilter] = useInputState("");
   const [isNewDeckOpen, setisNewDeckOpen] = useState(false);
@@ -37,7 +37,7 @@ const DeckList = () => {
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col overflow-x-hidden">
       <div className="flex flex-col gap-2">
         <div className="mx-2 flex justify-between items-center p-2 rounded-md">
           <div className="flex items-center justify-center gap-2">

@@ -1,7 +1,7 @@
 import { Chip, darken } from "@mantine/core";
 
-import { Type } from "../../types/api";
-import { useFilterStore } from "../../lib/filter";
+import { Type } from "../../../types/api";
+import { useFilterStore } from "../../../lib/filter";
 
 const TypeFilter = () => {
   const filterStore = useFilterStore();

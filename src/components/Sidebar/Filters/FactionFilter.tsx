@@ -1,6 +1,6 @@
 import { Chip, darken, lighten, useMantineColorScheme } from "@mantine/core";
-import { Faction, FactionColors } from "../../types/api";
-import { useFilterStore } from "../../lib/filter";
+import { Faction, FactionColors } from "../../../types/api";
+import { useFilterStore } from "../../../lib/filter";
 
 const FactionFilter = () => {
   const filterStore = useFilterStore();

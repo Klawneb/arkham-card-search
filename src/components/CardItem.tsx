@@ -16,7 +16,15 @@ const CardItem = ({ card, openModal, setModalCard, width, height }: CardItemProp
   }
 
   return (
-    <div className="flex justify-center cursor-pointer" onClick={handleClick}>
+    <div
+      className="flex justify-center cursor-pointer"
+      onClick={handleClick}
+      draggable
+      onDragStart={(e) => {
+        e.dataTransfer.setData("application/json", JSON.stringify(card));
+        e.dataTransfer.setDragImage(e.currentTarget, width / 2, height / 2);
+      }}
+    >
       <Image
         src={`https://arkhamdb.com${card.imagesrc}`}
         className="h-full object-cover object-left rounded-lg"

@@ -1,12 +1,12 @@
 import { Accordion, Text } from "@mantine/core";
 import { ReactNode, useState } from "react";
-import TextFilter from "./TextFilter";
+import TextFilter from "../TextFilter";
 import PackFilter from "./PackFilter";
 import FactionFilter from "./FactionFilter";
-import XPFilter from "./XPFilter";
-import ResourceFilter from "./ResourceFilter";
+import XPFilter from "../XPFilter";
+import ResourceFilter from "../ResourceFilter";
 import TypeFilter from "./TypeFilter";
-import TraitFilter from "./TraitFilter";
+import TraitFilter from "../TraitFilter";
 import {
   BookOpen,
   FileSearch,
