@@ -17,7 +17,6 @@ const DeckView = () => {
       const card: Card = JSON.parse(data);
       if (deck && card) {
         deckStore.addCardToDeck(deck.id, card);
-        console.log(deck.cards);
       }
     }
   };
@@ -48,11 +47,11 @@ const DeckView = () => {
         </div>
       </div>
       <Collapse in={opened}>
-        <div className="bg-stone-900 p-2 h-80" onDragOver={handleDragOver} onDrop={handleDrop}>
+        <div className="bg-stone-900 p-2 h-80 overflow-auto" onDragOver={handleDragOver} onDrop={handleDrop}>
           <Text c="dimmed" className="font-semibold">
             CARDS
           </Text>
-          <div>
+          <div className="flex flex-col gap-1">
             {Array.from(deck?.cards.values() ?? []).map((cardInfo) => (
               <CardItem
                 key={cardInfo.card.code}

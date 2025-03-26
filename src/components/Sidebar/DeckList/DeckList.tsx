@@ -14,7 +14,6 @@ const DeckList = () => {
   const deckStore = useDeckStore();
 
   const decks = deckStore.decks;
-  console.log(decks);
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
