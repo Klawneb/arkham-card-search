@@ -3,11 +3,13 @@ import { Card } from "../../../types/api";
 
 interface CardItemProps {
   card: Card;
+  quantity: number;
 }
 
-const CardItem = ({ card }: CardItemProps) => {
+const CardItem = ({ card, quantity }: CardItemProps) => {
   return (
-    <div>
+    <div className="flex gap-2">
+      <Text>{quantity}x</Text>
       <Text>{card.name}</Text>
     </div>
   );

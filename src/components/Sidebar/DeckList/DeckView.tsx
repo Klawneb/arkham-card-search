@@ -3,10 +3,11 @@ import { ChevronUpIcon } from "lucide-react";
 import { useState } from "react";
 import { useDeckStore } from "../../../lib/deckStore";
 import { Card } from "../../../types/api";
+import CardItem from "./CardItem";
 
 const DeckView = () => {
   const deckStore = useDeckStore();
-  const deck = deckStore.currentDeck;
+  const deck = deckStore.decks.find((deck) => deck.id === deckStore.currentDeckId);
   const [opened, setOpened] = useState(false);
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
@@ -15,7 +16,7 @@ const DeckView = () => {
     if (data) {
       const card: Card = JSON.parse(data);
       if (deck && card) {
-        deckStore.addCardToDeck(deck?.id, card);
+        deckStore.addCardToDeck(deck.id, card);
         console.log(deck.cards);
       }
     }
@@ -51,6 +52,15 @@ const DeckView = () => {
           <Text c="dimmed" className="font-semibold">
             CARDS
           </Text>
+          <div>
+            {Array.from(deck?.cards.values() ?? []).map((cardInfo) => (
+              <CardItem
+                key={cardInfo.card.code}
+                card={cardInfo.card}
+                quantity={cardInfo.quantity}
+              />
+            ))}
+          </div>
         </div>
       </Collapse>
     </div>

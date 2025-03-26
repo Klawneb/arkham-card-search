@@ -15,7 +15,7 @@ const DeckItem = ({ deck }: DeckItemProps) => {
   });
   const theme = useMantineTheme();
   const deckStore = useDeckStore();
-  const isActive = deckStore.currentDeck?.id === deck.id;
+  const isActive = deckStore.currentDeckId === deck.id;
 
   const style = {
     transform: transform ? CSS.Transform.toString({ ...transform, x: 0 }) : undefined,
@@ -24,7 +24,7 @@ const DeckItem = ({ deck }: DeckItemProps) => {
   };
 
   function handleClick() {
-    deckStore.setCurrentDeck(deck);
+    deckStore.setCurrentDeckId(deck.id);
   }
 
   return (
