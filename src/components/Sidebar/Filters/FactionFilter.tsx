@@ -32,6 +32,9 @@ const FactionFilter = () => {
                     border: `2px solid ${color}`,
                   },
                 }}
+                classNames={{
+                  label: "rounded-md"
+                }}
               >
                 {faction.slice(0, 1).toUpperCase() + faction.slice(1)}
               </Chip>

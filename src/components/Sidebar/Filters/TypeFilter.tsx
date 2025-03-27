@@ -29,6 +29,9 @@ const TypeFilter = () => {
                     justifyContent: "center",
                   },
                 }}
+                classNames={{
+                  label: "rounded-md"
+                }}
               >
                 {type.slice(0, 1).toUpperCase() + type.slice(1)}
               </Chip>

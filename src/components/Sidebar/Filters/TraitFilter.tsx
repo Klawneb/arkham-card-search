@@ -81,13 +81,13 @@ const TraitFilter = () => {
           dropdown: "bg-stone-800",
         }}
       />
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-2 py-2">
         {filterStore.traitFilter.map((trait) => {
           return (
             <div
               key={trait}
               onClick={() => removeSelectedTrait(trait)}
-              className="relative bg-stone-700 rounded-3xl transition-all text-sm flex items-center px-2 pr-8"
+              className="relative bg-stone-700 rounded-md px-2 py-1 transition-all text-sm flex items-center pr-8"
             >
               <Text className="flex-1 text-center block truncate font-semibold">{trait}</Text>
               <button className="w-5 absolute right-1 hover:scale-125 stroke-stone-400 hover:stroke-red-500 transition-all">
