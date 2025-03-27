@@ -1,14 +1,11 @@
-import { Button, Divider, SegmentedControl, Text } from "@mantine/core";
-import { useFilterStore } from "../lib/filter.ts";
-import { GalleryHorizontalEndIcon, Info, SearchIcon, Settings, X } from "lucide-react";
+import { Button, Divider, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import SettingsModal from "./Sidebar/SettingsModal.tsx";
+import { Info, Settings, X } from "lucide-react";
+import { useState } from "react";
+import { useFilterStore } from "../lib/filter.ts";
 import AboutModal from "./Sidebar/AboutModal.tsx";
 import CardSearch from "./Sidebar/Filters/CardSearch.tsx";
-import { useState } from "react";
-import DeckList from "./Sidebar/DeckList/DeckList.tsx";
-import { AnimatePresence, motion } from "framer-motion";
-import DeckView from "./Sidebar/DeckList/DeckView.tsx";
+import SettingsModal from "./Sidebar/SettingsModal.tsx";
 
 const Sidebar = () => {
   const filterStore = useFilterStore();
@@ -34,76 +31,21 @@ const Sidebar = () => {
           Arkham Card Tools
         </Text>
         <Divider />
-        <SegmentedControl
-          size="lg"
-          value={sidebarMenu}
-          onChange={setSidebarMenu}
-          className="my-2 mx-1 flex-shrink-0"
-          classNames={{
-            label: "flex items-center justify-center",
-            root: "bg-stone-900",
-          }}
-          color="teal"
-          data={[
-            {
-              label: (
-                <div className="flex gap-2">
-                  <SearchIcon />
-                  <span>Card Search</span>
-                </div>
-              ),
-              value: "search",
-            },
-            {
-              label: (
-                <div className="flex gap-2">
-                  <GalleryHorizontalEndIcon />
-                  <span>Deck List</span>
-                </div>
-              ),
-              value: "deck",
-            },
-          ]}
-        />
-        <Divider />
-        <AnimatePresence mode="wait">
-          {sidebarMenu === "search" ? (
-            <motion.div key="search" initial={{ x: 200 }} animate={{ x: 0 }}>
-              <CardSearch />
-            </motion.div>
-          ) : (
-            <motion.div key="deck" initial={{ x: -200 }} animate={{ x: 0 }}>
-              <DeckList />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <CardSearch />
       </div>
 
       <div className="flex flex-col justify-center gap-2">
-        <AnimatePresence>
-          <motion.div layout key={"deck-view"}>
-            <DeckView />
-          </motion.div>
-          {sidebarMenu === "search" && (
-            <motion.div
-              initial={{ x: 200 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="w-full px-2"
-              key={"clear-button"}
-            >
-              <Button
-                className="w-full"
-                onClick={clearFilters}
-                color="red"
-                size="lg"
-                leftSection={<X />}
-              >
-                Clear Filters
-              </Button>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <div className="w-full px-2">
+          <Button
+            className="w-full"
+            onClick={clearFilters}
+            color="red"
+            size="lg"
+            leftSection={<X />}
+          >
+            Clear Filters
+          </Button>
+        </div>
 
         <Divider />
         <div className="flex gap-2 justify-between px-2 pb-2">

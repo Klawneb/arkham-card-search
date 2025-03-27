@@ -14,7 +14,6 @@ const CardItem = ({ card, quantity }: CardItemProps) => {
   const removeCardFromDeck = useDeckStore((state) => state.removeCardFromDeck);
 
   const isMyriad = card.text?.toLowerCase().includes("myriad");
-  console.log(isMyriad);
 
   return (
     <div className="flex gap-2 items-center bg-stone-800 rounded-md p-0">
@@ -26,7 +25,6 @@ const CardItem = ({ card, quantity }: CardItemProps) => {
         <Minus size={16} />
       </ActionIcon>
       <Text>{quantity}x</Text>
-      {/* Reserve fixed space for the plus button */}
       <div className="w-6 flex items-center">
         {quantity < (isMyriad ? 3 : 2) ? (
           <ActionIcon
