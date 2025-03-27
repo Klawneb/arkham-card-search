@@ -16,7 +16,7 @@ const TextFilter = () => {
         onChange={(e) => filterStore.setTextFilter(e.target.value)}
         placeholder="Filter cards"
         radius="md"
-        size="md"
+        size="sm"
         classNames={{
           input: "bg-stone-900 text-stone-300 border-stone-600",
         }}

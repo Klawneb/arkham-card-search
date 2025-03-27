@@ -1,9 +1,9 @@
-import { SearchIcon } from "lucide-react";
-import { useFilterStore } from "../../../lib/filter";
-import { Card } from "../../../types/api";
 import { Autocomplete, Text } from "@mantine/core";
+import { SearchIcon } from "lucide-react";
 import { useContext, useState } from "react";
 import { CardContext } from "../../../App";
+import { useFilterStore } from "../../../lib/filter";
+import { Card } from "../../../types/api";
 
 function getTraitList(cards: Card[]): string[] {
   const traitMap = new Map<string, number>();
@@ -75,22 +75,22 @@ const TraitFilter = () => {
         placeholder="Trait search"
         leftSection={<SearchIcon className="w-5 h-5 text-stone-300" />}
         radius="md"
-        size="md"
+        size="sm"
         classNames={{
           input: "bg-stone-900 text-stone-300 border-stone-600",
           dropdown: "bg-stone-800",
         }}
       />
-      <div className="grid grid-cols-2 gap-2 pt-2">
+      <div className="flex flex-wrap gap-2">
         {filterStore.traitFilter.map((trait) => {
           return (
             <div
               key={trait}
               onClick={() => removeSelectedTrait(trait)}
-              className={`bg-[#332f2d] rounded-3xl border-stone-500 border-2 transition-all px-1 py-0.5 text-sm flex items-center`}
+              className="relative bg-stone-700 rounded-3xl transition-all text-sm flex items-center px-2 pr-8"
             >
               <Text className="flex-1 text-center block truncate font-semibold">{trait}</Text>
-              <button className="w-5 absolute hover:scale-125 stroke-stone-400 hover:stroke-red-500 transition-all">
+              <button className="w-5 absolute right-1 hover:scale-125 stroke-stone-400 hover:stroke-red-500 transition-all">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"

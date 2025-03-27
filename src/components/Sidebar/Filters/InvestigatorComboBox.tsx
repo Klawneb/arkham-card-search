@@ -72,7 +72,7 @@ const InvestigatorCombobox: React.FC<InvestigatorComboboxProps> = ({ cards, onSe
             comboBox.updateSelectedOptionIndex();
           }}
           radius="md"
-          size="md"
+          size="sm"
           classNames={{
             input: "bg-stone-900 text-stone-100 border-stone-600",
           }}
