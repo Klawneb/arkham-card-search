@@ -1,12 +1,12 @@
-import { Modal, Image, AspectRatio, Text } from "@mantine/core";
-import { Card, Type } from "../types/api";
-import parseHTML from "html-react-parser";
-import { parseCardText } from "../lib/parsers";
+import { AspectRatio, Image, Modal, Text } from "@mantine/core";
 import { useHotkeys } from "@mantine/hooks";
-import { useCallback, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import FlipCard from "./FlipCard";
+import parseHTML from "html-react-parser";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+import { parseCardText } from "../lib/parsers";
+import { Card, Type } from "../types/api";
+import FlipCard from "./FlipCard";
 
 interface CardModalProps {
   opened: boolean;
@@ -45,6 +45,7 @@ function onBackgroundClicked(e: React.MouseEvent<HTMLDivElement>, closeFunction:
 const CardModal = ({ onClose, opened, card, setModalCard, cards }: CardModalProps) => {
   const [direction, setDirection] = useState(0);
   const currentCardIndex = cards.findIndex((c) => c.code === card?.code) % cards.length;
+  const [showBackText, setShowBackText] = useState(false);
 
   useHotkeys([
     [
@@ -60,6 +61,10 @@ const CardModal = ({ onClose, opened, card, setModalCard, cards }: CardModalProp
       },
     ],
   ]);
+
+  useEffect(() => {
+    setShowBackText(false);
+  }, [card]);
 
   function moveRight() {
     setDirection(1);
@@ -110,6 +115,7 @@ const CardModal = ({ onClose, opened, card, setModalCard, cards }: CardModalProp
                   <FlipCard
                     backImage={`https://arkhamdb.com${card?.backimagesrc}`}
                     frontImage={`https://arkhamdb.com${card?.imagesrc}`}
+                    onFlip={() => setShowBackText(!showBackText)}
                   />
                 ) : (
                   <Image
@@ -129,12 +135,30 @@ const CardModal = ({ onClose, opened, card, setModalCard, cards }: CardModalProp
                 <Text className="text-center text-5xl">{card?.name}</Text>
                 <Text className="text-center font-bold text-2xl pt-5">{card?.type_name}</Text>
               </div>
-              <div className="pt-20">
-                <Text className="text-center text-2xl font-bold">{card?.traits}</Text>
-                <Text className="text-center text-2xl pt-5">
-                  {card?.text ? parseHTML(parseCardText(card.text)) : ""}
-                </Text>
-              </div>
+              {card?.back_text ? (
+                showBackText ? (
+                  <div className="pt-20">
+                    <Text className="text-center text-2xl pt-5">
+                      {parseHTML(parseCardText(card.back_text))}
+                    </Text>
+                  </div>
+                ) : (
+                  <div className="pt-20">
+                    <Text className="text-center text-2xl font-bold">{card?.traits}</Text>
+                    <Text className="text-center text-2xl pt-5">
+                      {card?.text ? parseHTML(parseCardText(card.text)) : ""}
+                    </Text>
+                  </div>
+                )
+              ) : (
+                <div className="pt-20">
+                  <Text className="text-center text-2xl font-bold">{card?.traits}</Text>
+                  <Text className="text-center text-2xl pt-5">
+                    {card?.text ? parseHTML(parseCardText(card.text)) : ""}
+                  </Text>
+                </div>
+              )}
+
               <div className="pt-20">
                 <Text className="text-center italic">{card?.flavor}</Text>
                 <Text className="text-center font-bold pt-5">{card?.pack_name}</Text>

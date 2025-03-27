@@ -1,18 +1,20 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
 import { Image } from "@mantine/core";
+import { motion } from "framer-motion";
+import { useState } from "react";
 
 interface FlippableCardProps {
   frontImage: string;
   backImage: string;
   className?: string;
+  onFlip: () => void;
 }
 
-const FlippableCard = ({ frontImage, backImage, className = "" }: FlippableCardProps) => {
+const FlippableCard = ({ frontImage, backImage, className = "", onFlip }: FlippableCardProps) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
   const handleFlip = () => {
     setIsFlipped(!isFlipped);
+    onFlip();
   };
 
   return (
